@@ -1,0 +1,33 @@
+<div class="container-fluid">
+
+	<div class="row">
+		<div class="table-responsive">
+			<table class="table table-hover table-striped">
+				<thead>
+					<tr>
+						<th>ลำดับ</th>
+						<th>เลขรับบริการ</th>
+						<th>เวลาที่ส่ง</th>
+						<th>เวลารอคอย</th>
+						<th>เลข HN</th>
+						<th>ชื่อ - นามสกุล</th>
+						<th>ห้องตรวจ</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let p of diagRegs ; let ndx = index" (click)="goToVisit(p)">
+						<td> {{ p.qno }} </td>
+						<td> {{ p.regno }} </td>
+						<td> {{ p.time }} </td>
+						<td> {{ p.date | period }} นาที</td>
+						<td> {{ p.hn }}</td>
+						<td> {{ p.titles }} {{ p.name }} {{ p.surname }} </td>
+						<td> ห้องตรวจโรคทั่วไป</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+</div>

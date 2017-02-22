@@ -1,0 +1,7 @@
+<dent-modal (selectedItem)="itemSelect($event)"></dent-modal>
+
+<button *ngIf="listMode" type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#dentModal">งานบริการ/ICD9</button>
+
+<dent-list *ngIf="listMode"></dent-list>
+
+<dent-edit *ngIf="editMode" [dentItem]="dentItem" (submitForm)="returnListMode($event)"></dent-edit>

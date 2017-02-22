@@ -1,0 +1,17 @@
+.form-group{
+  margin: 0.2rem;
+}
+
+.card-block {
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+}
+
+.card-header {
+  padding: 0.1rem 1.25rem;
+  margin-bottom: 0;
+}
+
+button{
+    margin-bottom: 0.5rem;
+}

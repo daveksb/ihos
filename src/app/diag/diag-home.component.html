@@ -1,0 +1,5 @@
+<button *ngIf="listMode" type="button" class="btn btn-primary btn-sm" (click)="toggleMode()">ICD10</button>
+
+<diag-list *ngIf="listMode"></diag-list>
+
+<diag-edit *ngIf="editMode" (submitForm)="returnListMode($event)"></diag-edit>

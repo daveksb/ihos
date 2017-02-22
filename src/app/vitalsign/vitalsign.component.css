@@ -1,0 +1,31 @@
+.row {
+  margin-top: 0.1rem;
+}
+
+.form-control-sm{
+  height: 1.4rem;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.1rem 0.5rem;
+  margin-top: 0rem;
+  margin-bottom: .2rem;
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.form-group {
+  margin-bottom: 0.05rem;
+}
+
+label {
+  display: inline-block;
+  margin-bottom: 0rem;
+  margin-top: 0rem;
+}
+
+input {
+  margin-top: 0.2rem;
+}

@@ -1,0 +1,30 @@
+<div class="row">
+	<table class="table table-striped table-hover">
+		<thead>
+			<tr>
+				<th class="col-sm-1">รหัส</th>
+				<th class="col-sm-4">รายการ</th>
+				<th class="col-sm-2">ICD9</th>
+				<th class="col-sm-1">จำนวน</th>
+				<th class="col-sm-1">ราคา</th>
+				<th class="col-sm-1">ลดหย่อน</th>
+				<th class="col-sm-1">จ่ายจริง</th>
+				<th class="col-sm-1"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let p of temp ; let ndx = index">
+				<td class="col-sm-1"> {{p?.code}} </td>
+				<td class="col-sm-4"> {{p?.name}}</td>
+				<td class="col-sm-2"> {{p?.icd9code}}</td>
+				<td class="col-sm-1"> {{p?.qty}}</td>
+				<td class="col-sm-1"> {{p?.price1}}</td>
+				<td class="col-sm-1"> </td>
+				<td class="col-sm-1"> </td>
+				<td class="col-sm-1">
+					<button (click)="delRow(ndx)" type="button " class="btn btn-danger btn-sm">ลบ</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

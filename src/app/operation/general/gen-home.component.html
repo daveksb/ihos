@@ -1,0 +1,5 @@
+<button *ngIf="listMode" type="button" class="btn btn-primary btn-sm" (click)="toggleMode()">งานบริการ/ICD9</button>
+
+<gen-list *ngIf="listMode"></gen-list>
+
+<gen-edit *ngIf="editMode" (submitForm)="returnListMode($event)"></gen-edit>

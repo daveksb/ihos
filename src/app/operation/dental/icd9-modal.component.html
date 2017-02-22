@@ -1,0 +1,20 @@
+<div class="modal fade" id="icd9" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">รายการบริการ</h4>
+            </div>
+            <div class="modal-body">
+                <ul *ngFor="let p of data">
+                    <li (click)=itemClick(p) data-dismiss="modal">{{p.code}}: {{p.name}}</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,136 @@
+<div class="container">
+
+	<icd9-modal [data]="icd9s" (selectedItem)="icd9Select($event)"></icd9-modal>
+
+	<div class="row " style="padding-top: 10px;">
+		<div class="col-sm-3 alert alert-info " role="alert ">
+			<strong>บันทึกรายการบริการ / ICD9</strong>
+		</div>
+	</div>
+	<div class="row ">
+		<div class="col-md-12">
+			<form>
+				<div class="form-group row ">
+					<label for="itemcode" class="col-sm-2 col-form-label">รหัสค่าบริการ</label>
+					<div class="col-sm-2">
+						<input type="text " name="itemcode" class="form-control form-control-sm" [(ngModel)]="subRoom.code">
+					</div>
+					<label class="col-sm-2 col-form-label">รายละเอียดบริการ</label>
+					<div class="col-sm-6">
+						<input [(ngModel)]="subRoom.name" name="test" type="text " class="form-control form-control-sm ">
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-2">
+		</div>
+		<div class="col-md-4">
+			<div class="card ">
+				<div class="card-header">รายละเอียดค่าบริการ</div>
+				<div class="card-text card-block ">
+					<form>
+						<div class="form-group row">
+							<label class="col-sm-4 col-form-label col-form-label-sm ">จำนวน</label>
+							<div class="col-sm-6">
+								<input [(ngModel)]="subRoom.qty" name="qty " type="text " class="form-control form-control-sm ">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-4 col-form-label col-form-label-sm ">ราคา</label>
+							<div class="col-sm-6">
+								<input [(ngModel)]="subRoom.price1" name="price1 " type="text " class="form-control form-control-sm ">
+							</div>
+						</div>
+						<div class="form-group row ">
+							<label class="col-sm-4 col-form-label col-form-label-sm ">ลดหย่อน</label>
+							<div class="col-sm-6">
+								<input type="email" class="form-control form-control-sm " id="inputEmail3 ">
+							</div>
+						</div>
+						<div class="form-group row ">
+							<label class="col-sm-4 col-form-label col-form-label-sm ">จ่ายจริง</label>
+							<div class="col-sm-6">
+								<input type="email " class="form-control form-control-sm " id="inputEmail3 ">
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="row ">
+		<div class="col-md-12 ">
+			<div class="card ">
+				<div class="card-header ">บันทึกรหัสหัตถการ</div>
+				<div class="card-text card-block ">
+					<form>
+						<div class="form-group row ">
+							<label for="inputEmail3 " class="col-sm-2 col-form-label ">รหัสหัตถการ</label>
+							<div class="col-sm-2 ">
+								<input type="text" [(ngModel)]="icd9Sub.code" name="icd9code" class="form-control form-control-sm">
+							</div>
+							<div class="col-sm-2 ">
+								<button type="button" (click)="findIcd9s(icd9Sub.code)" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#icd9">
+                           ค้นหา
+                        </button>
+							</div>
+						</div>
+						<div class="form-group row ">
+							<label for="inputPassword3 " class="col-sm-2 col-form-label "></label>
+							<div class="col-sm-6 ">
+								<input type="text " name="icd9name" [(ngModel)]="icd9Sub.name" class="form-control form-control-sm ">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label">สถานะหัตถการ</label>
+							<div class="col-sm-6 ">
+								<label class="form-check-inline">
+                           <input [(ngModel)]="icd9Sub.type" class="form-check-input" type="radio" name="inlineRadioOptions" [value]="1"> 1. Principal Procedure
+                        </label>
+								<label class="form-check-inline">
+                           <input [(ngModel)]="icd9Sub.type" class="form-check-input" type="radio" name="inlineRadioOptions" [value]="2 "> 2. Secondary Procedure
+                        </label>
+								<label class="form-check-inline">
+                           <input [(ngModel)]="icd9Sub.type" class="form-check-input" type="radio" name="inlineRadioOptions" [value]="3 "> 3. Others
+                        </label>
+							</div>
+							<div>type = {{icd9Sub.type}}</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label">รหัสเจ้าหน้าที่ 1</label>
+							<div class="col-sm-2 ">
+								<input type="text" class="form-control form-control-sm" id="inputEmail3 ">
+							</div>
+							<div class="col-sm-6 ">
+								<input type="text" class="form-control form-control-sm" id="inputEmail3 ">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="inputEmail3 " class="col-sm-2 col-form-label ">รหัสเจ้าหน้าที่ 2</label>
+							<div class="col-sm-2 ">
+								<input type="text" class="form-control form-control-sm" id="inputEmail3 ">
+							</div>
+							<div class="col-sm-6 ">
+								<input type="text" class="form-control form-control-sm" id="inputEmail3 ">
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="row " align="right ">
+		<div class="col-md-12 ">
+			<button (click)="formSubmit(subRoom,icd9Sub) " type="button " class="btn btn-primary btn-sm">บันทึก</button>
+			<button (click)="cancel() " type="button " class="btn btn-danger btn-sm">ยกเลิก</button>
+		</div>
+	</div>
+
+</div>

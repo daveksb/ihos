@@ -1,0 +1,48 @@
+<div class="row">
+	<div class="col-sm-2">
+		<div class="form-group">
+			<label for="Firstname1">HN: {{diagReg?.hn}}</label>
+		</div>
+	</div>
+	<div class="col-sm-3">
+		<div class="form-group">
+			<label for="Firstname1">ชื่อ: {{diagReg?.titles}} {{diagReg?.name}} {{diagReg?.surname}}</label>
+		</div>
+	</div>
+	<div class="col-sm-1">
+		<div class="form-group">
+			<label for="gender">เพศ:</label>
+		</div>
+	</div>
+	<div class="col-sm-1">
+		<div class="form-group">
+			<label for="age">อายุ: {{diagReg?.age}} ปี</label>
+		</div>
+	</div>
+	<div class="col-sm-4">
+		<label for="Firstname1">สิทธิการรักษา: </label>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-sm-2">
+		<div class="form-group">
+			<label for="Firstname1">วันที่: {{diagReg?.date | date}} </label>
+		</div>
+	</div>
+	<div class="col-sm-2">
+		<div class="form-group">
+			<label for="Firstname1">เวลาตรวจ: {{diagReg?.time}}</label>
+		</div>
+	</div>
+	<div class="col-sm-3">
+		<div class="form-group">
+			<label for="Firstname1">เลขที่ลงทะเบียน: {{diagReg?.regno}} </label>
+		</div>
+	</div>
+	<div class="col-sm-2">
+		<div class="form-group">
+			<label for="Firstname1">พยาบาลส่งตรวจ: {{diagReg?.nurse}} </label>
+		</div>
+	</div>
+</div>

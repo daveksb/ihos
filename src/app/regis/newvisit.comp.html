@@ -1,0 +1,170 @@
+<div class="container-fluid">
+
+    <div class="my-form d-flex justify-content-end">
+        <div class="mr-auto p-2">
+            <h5 class="page-header">
+                ลงทะเบียนเข้าตรวจ
+            </h5>
+        </div>
+        <div *ngIf="tempPatient.hn" class="p-2">
+            <button (click)="editPatient()" class="btn btn-secondary">แก้ไขประวัติ</button>
+        </div>
+        <div class="p-2">
+            <button (click)="printOpd()" [disabled]="!tempPatient.hn" class="btn btn-secondary">พิมพ์ OPD-Card</button>
+        </div>
+        <div class="p-2">
+            <button class="btn btn-secondary">  วันที่ {{clock | async | date:'dd/MM/yyyy เวลา HH:mm:ss' }}</button>
+        </div>
+        <div class="p-2">
+            <button [ngClass]="officeHour === true ? 'btn btn-secondary' : 'btn btn-outline-secondary'">ในเวลา</button>
+        </div>
+        <div class="p-2">
+            <button [ngClass]="officeHour === false ? 'btn btn-secondary' : 'btn btn-outline-secondary'">นอกเวลา</button>
+        </div>
+    </div>
+
+    <div class="my-form">
+        <search-patient [name]="childName" (patientWasSelect)="patientChanged($event)"></search-patient>
+    </div>
+
+    <form [formGroup]="visitForm">
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-block bg-white">
+                    <div class="row">
+                        <div class="col-2">
+                            <label>เลข HN</label>
+                            <input type="text" formControlName="hn" class="form-control">
+                        </div>
+                        <div class="col-1">
+                            <label>คำนำหน้า</label>
+                            <input type="text" formControlName="titles" class="form-control">
+                        </div>
+                        <div class="col-2">
+                            <label>ชื่อ</label>
+                            <input type="text" formControlName="name" class="form-control">
+                        </div>
+                        <div class="col-2">
+                            <label>นามสกุล</label>
+                            <input type="text" formControlName="surname" class="form-control">
+                        </div>
+                        <div class="col-1">
+                            <label>อายุ (ปี)</label>
+                            <input type="text" [(ngModel)]="tempPatient.age" [ngModelOptions]="{standalone: true}" class="form-control">
+                        </div>
+                        <div class="col-2">
+                            <label>เลขบัตรประชาชน</label>
+                            <input type="text" [(ngModel)]="tempPatient.personId" [ngModelOptions]="{standalone: true}" class="form-control">
+                        </div>
+                        <div class="ui-grid-col-2">
+                            <label>มาครั้งสุดท้าย</label>
+                            <p-inputMask [(ngModel)]="tempPatient.lastdateTH" [ngModelOptions]="{standalone: true}" mask="99-99-9999" slotChar="วว/ดด/ปปปป"></p-inputMask>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-block bg-white">
+                    <div class="row">
+                        <div class="col-8">
+                            <label>ที่อยู่</label>
+                            <span [hidden]="!tempPatient.age">
+                                {{tempPatient.addr }} หมู่{{tempPatient.moo}} ต.{{tempPatient.tambon}} อ.{{tempPatient.ampur}} จ.{{tempPatient.province}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card ">
+            <div class="card-header">
+                <h5>สิทธิการรักษา</h5>
+            </div>
+            <div class="card-block bg-white">
+                <div class="row ">
+                    <div class="col-lg-5 ">
+                        <label>สิทธิการรักษา </label>
+                        <select formControlName="class" class="form-control">
+                                <option *ngFor="let c of classList" [value]="c.code">{{c.code}} : {{c.name}}</option>                                        
+                                </select>
+                    </div>
+                    <div class="col-lg-3 ">
+                        <label>เลขสิทธิบัตร</label>
+                        <input type="text" formControlName="insureCard" class="form-control">
+                    </div>
+                    <div class="col-lg-2 ">
+                        <label>วันที่ออกบัตร</label>
+                        <p-inputMask [(ngModel)]="tempPatient.insBdateTH" [ngModelOptions]="{standalone: true}" mask="99-99-9999" slotChar="วว/ดด/ปปปป"></p-inputMask>
+                    </div>
+                    <div class="col-lg-2 ">
+                        <label>วันหมดอายุ</label>
+                        <p-inputMask [(ngModel)]="tempPatient.insEdateTH" [ngModelOptions]="{standalone: true}" mask="99-99-9999" slotChar="วว/ดด/ปปปป"></p-inputMask>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-4 ">
+                        <label>สถานพยาบาล/รพ.หลัก</label>
+                        <div class="row ">
+                            <div class="col-3">
+                                <input type="text" formControlName="hos1" #term1 (keyup)="searchHos1(term1.value)" class="form-control" placeholder="รหัสค้น">
+                            </div>
+                            <div class="col-9">
+                                <select formControlName="hos1" class="form-control">
+                                <option *ngFor="let c of hos1List" [value]="c.offId ">{{c.offId}}: {{c.name}}</option>                                        
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 ">
+                        <label>สถานพยาบาล/รพ.สต.</label>
+                        <div class="row ">
+                            <div class="col-3">
+                                <input formControlName="hos2" type="text" #term2 (keyup)="searchHos2(term2.value)" class="form-control" placeholder="รหัสค้น">
+                            </div>
+                            <div class="col-9">
+                                <select formControlName="hos2" class="form-control">
+                                <option *ngFor="let c of hos2List" [value]="c.offId">{{c.offId}}: {{c.name}}</option>                                        
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-header">
+                ห้องที่ส่งตรวจ
+            </div>
+            <div class="card-block bg-white">
+                <div class="row">
+                    <div *ngFor="let b of buttonNum; let j = index">
+                        <div class="col-auto">
+                            <div *ngFor="let room of rooms; let i = index">
+                                <ul *ngIf="i>b.min && i<b.max">
+                                    <button (click)="selectRoom(room)" [ngClass]="currentRoom === room.col ? 'btn btn-block btn-primary' : 'btn btn-block btn-outline-primary'">
+                                    {{room?.name}}
+                                    </button>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="my-form d-flex flex-row-reverse">
+            <div class="p-2">
+                <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="400"></p-confirmDialog>
+                <button type="submit" (click)="confirm(visitForm.value)" [disabled]="!visitForm.valid || currentRoom.length < 2" class="btn btn-success">ตกลง</button>
+            </div>
+            <div class="p-2">
+                <button type="reset" class="btn btn-warning">ยกเลิก</button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

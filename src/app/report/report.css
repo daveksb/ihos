@@ -1,0 +1,8 @@
+.my-chart {
+  padding: 1rem 2rem 3rem;
+  margin-top: 2rem;
+  margin-left: 2rem;
+  width: 600px;
+  border-radius: 10px;
+  border: 3px dotted #80c3ff;
+}

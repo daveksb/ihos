@@ -1,0 +1,36 @@
+.form-group{
+  margin: .2rem;
+}
+
+.col-form-label {
+  padding-top: 0.1rem;
+  padding-bottom: .5rem;
+  margin-bottom: 0.2rem;
+}
+
+label {
+  display: inline-block;
+  margin-bottom: .2rem;
+}
+
+.form-control-sm{
+  height: 1.5rem;
+}
+
+.card-block {
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+}
+
+.card-header {
+  padding: 0.1rem 1.25rem;
+  margin-bottom: 0;
+}
+
+button{
+    margin-bottom: 0.5rem;
+}
+
+.alert {
+  padding: .3rem;    
+}

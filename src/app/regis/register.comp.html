@@ -1,0 +1,252 @@
+<div class="container-fluid">
+
+    <!--<form [formGroup]="regisForm" (ngSubmit)="onSubmit(regisForm.value)">-->
+    <form [formGroup]="regisForm">
+
+        <div class="card">
+            <div class="card-header">
+                <h5> ข้อมูลหลัก</h5>
+            </div>
+            <div class="card-block bg-white">
+                <div class="row">
+                    <div class="col-2">
+                        <label>คำนำหน้า </label>
+                        <select (change)="titlesChanged()" formControlName="titles" class="form-control">
+                                <option *ngFor="let c of titlesList" [value]="c.tname" >{{c.tname}}</option>
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <label>ชื่อ</label>
+                        <input type="text" formControlName="name" class="form-control" placeholder="ชื่อ">
+                    </div>
+                    <div class="col-2">
+                        <label>นามสกุล</label>
+                        <input type="text" formControlName="surname" class="form-control" placeholder="ชื่อ">
+                    </div>
+                    <div class="col-2">
+                        <label>เพศ</label>
+                        <select formControlName="sex" class="form-control">
+                        <option [value]="'ชาย'">ชาย</option>
+                        <option [value]="'หญิง'">หญิง</option>
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <label>เลขบัตรประชาชน</label>
+                        <input type="text" formControlName="personId" class="form-control">
+                    </div>
+                    <div class="col-2">
+                        <label>กลุ่มเลือด</label>
+                        <select formControlName="blood" class="form-control">
+                        <option value="ไม่ทราบ">ไม่ทราบ</option>                           
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="AB">AB</option>
+                        <option value="O">O</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5> ข้อมูลทั่วไป</h5>
+            </div>
+            <div class="card-block bg-white">
+                <div class="row">
+                    <div class="col-3">
+                        <label>วันเดือนปีเกิด</label>
+                        <p-inputMask (onComplete)="getAge()" [(ngModel)]="birthday" [ngModelOptions]="{standalone: true}" mask="99-99-9999" slotChar="วว/ดด/ปปปป"></p-inputMask>
+                    </div>
+                    <div class="col-2">
+                        <label>สถานภาพสมรส</label>
+                        <select formControlName="marriage" class="form-control">
+                        <option value="โสด">โสด</option>
+                        <option value="สมรส">สมรส</option>
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <label>อาชีพ</label>
+                        <select formControlName="occupa" class="form-control">
+                                <option *ngFor="let c of occupatList" [value]="c.code">{{c.name}}</option>                                        
+                                </select>
+                    </div>
+                    <div class="col-2">
+                        <label>เชื้อชาติ</label>
+                        <select formControlName="race" class="form-control">
+                                <option *ngFor="let c of nationList" [value]="c.code">{{c.name}}</option>                                        
+                                </select>
+                    </div>
+                    <div class="col-2">
+                        <label>สัญชาติ</label>
+                        <select formControlName="nation" class="form-control">
+                                <option *ngFor="let c of nationList" [value]="c.code">{{c.name}}</option>                                        
+                                </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-3">
+                        <label>ชื่อบิดา</label>
+                        <input type="text" (keydown.ArrowDown)="fillSurname($event,'father')" formControlName="father" class="form-control">
+                    </div>
+                    <div class="col-3">
+                        <label>ชื่อมารดา</label>
+                        <input type="text" (keydown.ArrowDown)="fillSurname($event,'mother')" formControlName="mother" class="form-control">
+                    </div>
+                    <div class="col-3">
+                        <label>แพ้ยา</label>
+                        <input type="text" formControlName="drughyper" class="form-control">
+                    </div>
+                    <div class="col-3">
+                        <label>โรคประจำตัว</label>
+                        <input class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5> ที่อยู่ปัจจุบัน</h5>
+            </div>
+            <div class="card-block bg-white">
+                <div class="row">
+                    <div class="col-2">
+                        <label>บ้านเลขที่</label>
+                        <input type="text" formControlName="addr" class="form-control">
+                    </div>
+                    <div class="col-2">
+                        <label>หมู่ที่</label>
+                        <input type="text" formControlName="moo" class="form-control">
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group ">
+                            <label>จังหวัด</label>
+                            <select formControlName="province" (change)="provinceChanged($event.target.value)" class="form-control">
+                               <option *ngFor="let c of provinceList" [value]="c.code">{{c.name}}</option>                                        
+                                </select>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <label>อำเภอ</label>
+                        <select formControlName="ampur" (change)="ampurChanged($event.target.value)" class="form-control">
+                                <option *ngFor="let c of ampurList" [value]="c.code">{{c.name}}</option>                                        
+                                </select>
+                    </div>
+                    <div class="col-2">
+                        <label>ตำบล</label>
+                        <select formControlName="tambon" (change)="tambonChanged($event.target.value)" class="form-control">
+                                <option *ngFor="let c of tambonList" [value]="c.code">{{c.name}}</option>                                        
+                                </select>
+                    </div>
+                    <div class="col-2">
+                        <label>เบอร์โทรศัพท์</label>
+                        <input type="text" formControlName="phone" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card ">
+            <div class="card-header">
+                <h5>สิทธิการรักษา</h5>
+            </div>
+            <div class="card-block bg-white">
+                <div class="row ">
+                    <div class="col-4">
+                        <label>สิทธิการรักษา</label>
+                        <select formControlName="class" class="form-control">
+                                <option *ngFor="let c of classList" [value]="c.code">{{c.code}} : {{c.name}}</option>                                        
+                                </select>
+                    </div>
+                    <div class="col-2">
+                        <label>เลขสิทธิบัตร</label>
+                        <input type="text" formControlName="insureCard" class="form-control">
+                    </div>
+                    <div class="col-3">
+                        <label>วันที่ออกบัตร</label>
+                        <p-inputMask (onComplete)="getBdate()" [(ngModel)]="insBdate" [ngModelOptions]="{standalone: true}" mask="99-99-9999" slotChar="วว/ดด/ปปปป"></p-inputMask>
+                    </div>
+                    <div class="col-3">
+                        <label>วันหมดอายุ</label>
+                        <p-inputMask (onComplete)="getEdate()" [(ngModel)]="insEdate" [ngModelOptions]="{standalone: true}" mask="99-99-9999" slotChar="วว/ดด/ปปปป"></p-inputMask>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-4">
+                        <label>สถานพยาบาล/รพ.หลัก</label>
+                        <div class="row ">
+                            <div class="col-3">
+                                <input type="text" formControlName="hos1" #hos1 (keyup)="searchHos1(hos1.value)" class="form-control" placeholder="รหัสค้น">
+                            </div>
+                            <div class="col-9">
+                                <select formControlName="hos1" class="form-control">
+                                <option *ngFor="let c of hos1List" [value]="c.offId ">{{c.offId}}: {{c.name}}</option>                                        
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <label>สถานพยาบาล/รพ.สต.</label>
+                        <div class="row ">
+                            <div class="col-3">
+                                <input type="text" formControlName="hos2" #hos2 (keyup)="searchHos2(hos2.value)" class="form-control" placeholder="รหัสค้น">
+                            </div>
+                            <div class="col-9">
+                                <select formControlName="hos2" class="form-control">
+                                <option *ngFor="let c of hos2List" [value]="c.offId">{{c.offId}}: {{c.name}}</option>                                        
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <label>หมายเหตุ</label>
+                        <input type="text " formControlName="note" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card ">
+            <div class="card-header ">
+                <h5>ข้อมูลผู้ติดต่อ</h5>
+            </div>
+            <div class="card-block bg-white ">
+                <div class="row ">
+                    <div class="col-3">
+                        <label>ชื่อ-นามสกุล</label>
+                        <input type="text" formControlName="contact" class="form-control">
+                    </div>
+                    <div class="col-5">
+                        <label>ที่อยู่</label>
+                        <input type="text" (keydown.ArrowDown)="fillAddrContact()" formControlName="addrContact" class="form-control">
+                    </div>
+                    <div class="col-2">
+                        <label>โทรศัพท์</label>
+                        <input type="text" formControlName="phoneContact" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="my-form d-flex flex-row-reverse">
+            <div *ngIf="saveSuccess" class="text-xs-center">
+                <div class="alert alert-success" role="alert ">
+                    <strong>บันทึกข้อมูล</strong> สำเร็จ !!
+                </div>
+            </div>
+            <div class="p-2">
+                <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+                <button (click)="confirm(regisForm.value)" [disabled]="!regisForm.valid" class="btn btn-success">ตกลง</button>
+            </div>
+            <div class="p-2">
+                <button type="reset" class="btn btn-warning">ยกเลิก</button>
+            </div>
+        </div>
+
+        <p-growl [value]="alertMsg"></p-growl>
+
+    </form>
+
+</div>

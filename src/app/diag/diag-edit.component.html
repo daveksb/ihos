@@ -1,0 +1,84 @@
+<div class="container">
+
+	<div class="row ">
+		<div class="col-md-12 ">
+			<div class="card ">
+				<div class="card-header">บันทึก ICD10</div>
+				<div class="card-text card-block ">
+
+					<diag-edit-modal [diagList]="icd101s" (selectedItem)="itemSelect($event)"></diag-edit-modal>
+
+					<form>
+						<div class="form-group row ">
+							<label for="inputEmail3 " class="col-sm-2 col-form-label ">รหัสโรค</label>
+							<div class="col-sm-2 ">
+								<input type="text" [(ngModel)]="icd10Sub.code" name="code" class="form-control form-control-sm">
+							</div>
+							<div class="col-sm-2 ">
+								<button type="button" (click)="findIcd10s(icd10Sub.code)" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#diagModal">								
+                           ค้นหา
+                        </button>
+							</div>
+						</div>
+						<div class="form-group row ">
+							<label for="inputPassword3 " class="col-sm-2 col-form-label">รายละเอียดโรค</label>
+							<div class="col-sm-6 ">
+								<input type="text " name="name" [(ngModel)]="icd10Sub.name" class="form-control form-control-sm ">
+							</div>
+						</div>
+						<div class="form-group row ">
+							<label for="inputPassword3 " class="col-sm-2 col-form-label">ชื่อโรค (ไทย)</label>
+							<div class="col-sm-6 ">
+								<input type="text " name="text" [(ngModel)]="icd10Sub.text" class="form-control form-control-sm ">
+							</div>
+						</div>
+						<div class="form-group row ">
+							<label for="inputEmail3 " class="col-sm-2 col-form-label ">คลินิค</label>
+							<div class="col-sm-1">
+								<input type="text" [(ngModel)]="icd10Sub.room" name="room" class="form-control form-control-sm">
+							</div>
+							<div class="col-sm-1">
+								<button type="button" (click)="findClinic()" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#diagModal">								
+                           		..
+                        		</button>
+							</div>
+							<div class="col-sm-4">
+								<input type="text" [(ngModel)]="icd10Sub.room" name="room" class="form-control form-control-sm">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label">สถานะโรค</label>
+							<div class="col-sm-10">
+								<label class="form-check-inline">
+                           <input [(ngModel)]="icd10Sub.type" class="form-check-input" type="radio" name="dtype" [value]="1"> 1.Principal Diagnosis
+                        </label>
+								<label class="form-check-inline">
+                           <input [(ngModel)]="icd10Sub.type" class="form-check-input" type="radio" name="dtype" [value]="2"> 2.Comorbidly
+                        </label>
+								<label class="form-check-inline">
+                           <input [(ngModel)]="icd10Sub.type" class="form-check-input" type="radio" name="dtype" [value]="3"> 3.Complication
+                        </label>
+								<label class="form-check-inline">
+                           <input [(ngModel)]="icd10Sub.type" class="form-check-input" type="radio" name="dtype" [value]="4"> 4.Others
+                        </label>
+								<label class="form-check-inline">
+                           <input [(ngModel)]="icd10Sub.type" class="form-check-input" type="radio" name="dtype" [value]="5"> 5.External Causes
+                        </label>
+							</div>
+						</div>
+					</form>
+
+					<div class="row" align="right">
+						<div class="col-md-12 ">
+							<button (click)="diagEditSubmit(icd10Sub) " type="button " class="btn btn-primary btn-sm">บันทึก</button>
+							<button (click)="cancel() " type="button " class="btn btn-danger btn-sm">ยกเลิก</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</div>
