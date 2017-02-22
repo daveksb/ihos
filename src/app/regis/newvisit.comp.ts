@@ -7,7 +7,8 @@ import { RegisterService } from '../share/service/register.service';
 import { SearchPatientService } from '../share/service/search.service';
 import { Patient } from '../share/model/patient';
 import { DiagReg } from '../share/model/diagreg';
-import { SearchPatientComp } from './search.comp';
+
+import { SearchPatientComp } from '../share/component/search.comp';
 import { ConfirmationService } from 'primeng/primeng';
 import { Observable } from 'rxjs/Rx';
 import { Subject } from 'rxjs/Subject';

@@ -24,7 +24,7 @@
     </div>
 
     <div class="my-form">
-        <search-patient [name]="childName" (patientWasSelect)="patientChanged($event)"></search-patient>
+        <search-patient (patientWasSelect)="patientChanged($event)"></search-patient>
     </div>
 
     <form [formGroup]="visitForm">

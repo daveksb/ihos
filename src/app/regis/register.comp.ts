@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RegisterService } from '../share/service/register.service';
-//import { SearchPatientService } from '../share/service/search.service';
 import { Patient } from '../share/model/patient';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';

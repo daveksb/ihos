@@ -1,0 +1,33 @@
+<div class="my-form">
+    <search-patient (patientWasSelect)="patientChanged($event)"></search-patient>
+</div>
+
+<div class="mt-1" style="padding: 1px; width: 1500px; height: 500px"> ผล Lab
+
+    <p-dataTable sortField="DocDate" rowGroupMode="rowspan" [value]="labRecord">
+
+        <p-headerColumnGroup>
+            <p-row>
+                <p-column header="วันที่"> </p-column>
+                <p-column header="RegNo"> </p-column>
+                <p-column header="รายการ"> </p-column>
+                <p-column header="Result"> </p-column>
+                <p-column header="Normal Low"> </p-column>
+                <p-column header="Normal Hi"> </p-column>
+            </p-row>
+        </p-headerColumnGroup>
+
+        <p-column field="DocDate">
+            <template let-dat="rowData" pTemplate="body">
+                <span>{{dat.DocDate | date}}</span>
+            </template>
+        </p-column>
+        <p-column field="RegNo"></p-column>
+        <p-column field="labName"></p-column>
+        <p-column field="Rep"></p-column>
+        <p-column field="NQ1"></p-column>
+        <p-column field="NQ2"></p-column>
+
+    </p-dataTable>
+
+</div>

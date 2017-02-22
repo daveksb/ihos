@@ -9,13 +9,14 @@ import { RoutingModule } from './routing.module';
 import { AppComponent } from './app.component';
 //import { AgGridModule } from 'ag-grid-ng2/main';
 import { TopMenuComponent } from './menu/top-menu.component';
+//import { ShareModule } from './share/share.module';
 import { VisitModule } from './visit/visit.module';
 import { DiagModule } from './diag/diag.module';
 import { OperaionModule } from './operation/operation.module';
 import { VitalsignModule } from './vitalsign/vitalsign.module';
 import { RegisterModule } from './regis/register.module';
 import { PatientModule } from './patient/patient.module';
-//import { ReportModule } from './report/report.module';
+import { ReportModule } from './report/report.module';
 import { LoginService } from './login/login.service';
 import { LoginComponent } from './login/login.component';
 import { ConfirmDialogModule, ConfirmationService, GrowlModule } from 'primeng/primeng';
@@ -24,15 +25,14 @@ import { ConfirmDialogModule, ConfirmationService, GrowlModule } from 'primeng/p
     declarations: [
         AppComponent,
         TopMenuComponent,
-        LoginComponent
+        LoginComponent,
     ],
     imports: [
         BrowserModule,
         FormsModule,
         HttpModule,
         RoutingModule,
-        //AgGridModule.withComponents([]),
-        //ReportModule,
+        ReportModule,
         RegisterModule,
         VisitModule,
         DiagModule,
@@ -40,7 +40,8 @@ import { ConfirmDialogModule, ConfirmationService, GrowlModule } from 'primeng/p
         VitalsignModule,
         PatientModule,
         ConfirmDialogModule,
-        GrowlModule
+        GrowlModule,
+        //ShareModule
     ],
     providers: [
         //AuthGuard,

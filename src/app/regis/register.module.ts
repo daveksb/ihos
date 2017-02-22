@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DataTableModule, SharedModule, DialogModule, InputMaskModule, ConfirmDialogModule, GrowlModule } from 'primeng/primeng';
+import { ShareModule } from '../share/share.module';
 
 import { RegisterComp } from './register.comp';
 import { EditPatientComp } from './edit-patient.comp';
 import { NewVisitComp } from './newvisit.comp';
-import { SearchPatientComp } from './search.comp';
 import { RegisterService } from '../share/service/register.service';
 import { SearchPatientService } from '../share/service/search.service';
 
@@ -15,10 +15,11 @@ import { SearchPatientService } from '../share/service/search.service';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    InputMaskModule, DialogModule, DataTableModule, SharedModule, ConfirmDialogModule, GrowlModule
+    InputMaskModule, DialogModule, DataTableModule, SharedModule, ConfirmDialogModule, GrowlModule,
+    ShareModule
   ],
-  declarations: [RegisterComp, EditPatientComp, NewVisitComp, SearchPatientComp],
-  exports: [RegisterComp, NewVisitComp, SearchPatientComp],
+  declarations: [RegisterComp, EditPatientComp, NewVisitComp],
+  exports: [RegisterComp, NewVisitComp],
   providers: [RegisterService, SearchPatientService]
 })
 export class RegisterModule { }

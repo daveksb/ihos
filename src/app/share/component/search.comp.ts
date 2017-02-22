@@ -1,5 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { SearchPatientService } from '../share/service/search.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { SearchPatientService } from '../service/search.service';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 

@@ -15,22 +15,18 @@ export class ReportService {
         let param = "a1=" + input[0] + "&a2=" + input[1] + "&a3=" + input[2] + "&a4=" + input[3] + "&a5=" + input[4];
 
         return this._http
-            .get(this.config.reportApi + 'report1?' + param)
-            .map(response => { return response.json(); })
-        //.flatMap(response => response.json())
-        //.filter(res => res.Item in input)
-        //.map(res => res)
+            .get(this.config.reportApi + 'report1?' + param).map(response => { return response.json(); })
     }
 
     getReportGeo(): Observable<any> {
-        return this._http
-            .get(this.config.reportApi + 'reportgeo')
-            .map(response => { return response.json(); })
+        return this._http.get(this.config.reportApi + 'reportgeo').map(response => { return response.json(); })
     }
 
     getReportAge(): Observable<any> {
-        return this._http
-            .get(this.config.reportApi + 'reportage')
-            .map(response => { return response.json(); })
+        return this._http.get(this.config.reportApi + 'reportage').map(response => { return response.json(); })
+    }
+
+    getReportLab(hn: string): Observable<any> {
+        return this._http.get(this.config.reportApi + 'report-lab?hn=' + hn).map(response => { return response.json(); })
     }
 }
