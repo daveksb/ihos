@@ -238,7 +238,9 @@
             </div>
             <div class="p-2">
                 <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
-                <button (click)="confirm(regisForm.value)" [disabled]="!regisForm.valid" class="btn btn-success">ตกลง</button>
+                <!--                <button (click)="confirm(regisForm.value)" [disabled]="!regisForm.valid" class="btn btn-success">ตกลง</button>
+-->
+                <button (click)="updatePatient(regisForm.value)" [disabled]="!regisForm.valid" class="btn btn-success">ตกลง</button>
             </div>
             <div class="p-2">
                 <button type="reset" class="btn btn-warning">ยกเลิก</button>

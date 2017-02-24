@@ -120,13 +120,13 @@ export class NewVisitComp implements OnInit {
         this.visitForm = this._fb.group({
             regno: [null, Validators.required], hn: [null, Validators.required],
             qno: null, titles: null, name: [null, Validators.required], surname: [null, Validators.required],
-            room: '00', count: 0, typedate: null,
+            age: null, room: '00', count: 0, typedate: null,
             insureCard: null, insureBdate: null, insureEdate: null,
             hos1: null, hos2: null, date: null, time: null, class: null,
             refer: 99, stpatient: 1, stdiag: 1, stspclinic: 1, stsanita: 1,
             stdent: 1, sthp: 1, stlr: 1, ster: 1, stxray: 1, stlab: 1, stadmit: 1, stor: 1,
             stherbal: 1, stdrug: 1, stpay: 1, stopd: 1, stdrg: 1, stdrger: 1, stdead: 1,
-            stadiag: 1, stobs: 1, stfree: 1, stherbal2: 1, stccc: 1, stpcard: 1,
+            stadiag: 1, stobs: 1, stfree: 1, stherbal2: 1, stccc: 1, stpcard: 1, stclass: null
         });
     }
 
@@ -147,6 +147,23 @@ export class NewVisitComp implements OnInit {
         return result;
     }
 
+    getAge(bd) {
+        let today = new Date();
+        let birthDate = new Date(bd);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        let m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) { age--; }
+        //console.log('age = ', age);
+        return age;
+    }
+
+    classChanged(input) {
+
+        let val = _.filter(this.classList, { 'code': input })
+
+        this.visitForm.patchValue({ stclass: val[0].type });
+    }
+
     patientChanged(patient: Patient) {
 
         this.tempPatient = patient;
@@ -164,6 +181,8 @@ export class NewVisitComp implements OnInit {
         this.tempPatient.occupaTH = this.index2string(this.tempPatient.occupa, 'occupa');
         this.tempPatient.classTH = this.index2string(this.tempPatient.class, 'class');
         this.tempPatient.todayTH = this.regisService.en2thdate(new Date());
+        this.tempPatient.age = this.getAge(patient.birthday);
+        this.classChanged(patient.class);
 
         this.visitForm.patchValue({
             regno: this.newRegNo,
@@ -174,6 +193,7 @@ export class NewVisitComp implements OnInit {
             titles: patient.titles,
             name: patient.name,
             surname: patient.surname,
+            age: this.tempPatient.age,
             date: new Date(),
             class: patient.class,
             insureCard: patient.insureCard,
@@ -181,7 +201,7 @@ export class NewVisitComp implements OnInit {
             hos2: patient.hos2,
             time: new Date().toTimeString().slice(0, 8), //เอาแค่ 8 ตัวแรก ถ้าเกินจะเกิด error
         });
-        //console.log('tempPatient = ', this.tempPatient);
+        //console.log('Patient = ', patient);
         //console.log('current room = ', this.currentRoom);
         //console.log('regno = ', this.visitForm.controls['regno'].valid);
     }
@@ -191,25 +211,27 @@ export class NewVisitComp implements OnInit {
         let temp = new Date().toLocaleDateString([], { month: "2-digit", day: "2-digit" });
         this.regisService.getLastQue().subscribe(
             data => {
-                if (data) { // กรณีวันนั้น มี que ก่อนหน้า
+                if (data === null) { // กรณีวันนั้น ไม่มี que ก่อนหน้า
+                    this.newQ = 1;
+                    this.newRegNo = '60-' + temp.slice(0, 2) + '-' + temp.slice(3, 6) + '-' + this.regisService.leftPad(1, 4);
+                    console.log('NULL new reg no = ', this.newRegNo);
+
+                } else {  // กรณีวันนั้น มี que ก่อนหน้า
+
                     let newQ = data.qno + 1;
                     let result = '60-' + temp.slice(0, 2) + '-' + temp.slice(3, 6) + '-' + this.regisService.leftPad(newQ, 4);
-                    //console.log('reg no = ', result);
+                    console.log('NULL new reg no = ', result);
                     this.newRegNo = result;
                     this.newQ = newQ;
                 }
-                // กรณีวันนั้น ไม่มี que ก่อนหน้า
-                this.newQ = 1;
-                this.newRegNo = '60-' + temp.slice(0, 2) + '-' + temp.slice(3, 6) + '-' + this.regisService.leftPad(1, 4);
-                //console.log('new reg no = ', this.newRegNo);
             }
         );
     }
 
     createVisit(diagReg: DiagReg) {
-        //console.log('create visit , DiagReg = ', diagReg);
+        console.log('create visit , DiagReg = ', diagReg);
         this.regisService.insertDiagReg(diagReg).subscribe(
-            data => JSON.stringify(data), // put the data returned from the server in our variable
+            data => { JSON.stringify(data); this.createRegNo(); }, // put the data returned from the server in our variable
             error => console.log(error), // in case of failure show this message
             () => { alert('บันทึกข้อมูลเรียบร้อย หมายเลข visit: ' + diagReg.regno); }
         );

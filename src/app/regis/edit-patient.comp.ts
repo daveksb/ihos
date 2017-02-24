@@ -1,15 +1,15 @@
 
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { RegisterComp } from './register.comp';
-import { SearchPatientService } from '../share/service/search.service';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { RegisterService } from '../share/service/register.service';
+
 import { ConfirmationService, Message } from 'primeng/primeng';
-//import { Patient } from '../share/model/patient';
-//import { Observable } from 'rxjs/Observable';
-//import { Subject } from 'rxjs/Subject';
-//import * as _ from 'lodash';
+
+import { SearchPatientService } from '../share/service/search.service';
+import { RegisterService } from '../share/service/register.service';
+import { Patient } from '../share/model/patient';
+
+import { RegisterComp } from './register.comp';
 
 @Component({
     templateUrl: 'register.comp.html',
@@ -85,6 +85,11 @@ export class EditPatientComp extends RegisterComp {
                 }
             )
         });
+    }
+
+    updatePatient(patient: Patient) {
+
+        this.regService.updatePatient(patient).subscribe(res => '')
     }
 
 }

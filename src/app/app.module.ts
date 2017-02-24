@@ -7,9 +7,7 @@ import { IAppConfig } from './app.config.interface';
 import { APP_CONFIG, AppConfig } from './app.config';
 import { RoutingModule } from './routing.module';
 import { AppComponent } from './app.component';
-//import { AgGridModule } from 'ag-grid-ng2/main';
 import { TopMenuComponent } from './menu/top-menu.component';
-//import { ShareModule } from './share/share.module';
 import { VisitModule } from './visit/visit.module';
 import { DiagModule } from './diag/diag.module';
 import { OperaionModule } from './operation/operation.module';
@@ -41,7 +39,6 @@ import { ConfirmDialogModule, ConfirmationService, GrowlModule } from 'primeng/p
         PatientModule,
         ConfirmDialogModule,
         GrowlModule,
-        //ShareModule
     ],
     providers: [
         //AuthGuard,

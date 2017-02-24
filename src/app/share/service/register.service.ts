@@ -30,20 +30,6 @@ export class RegisterService {
         return this._http.post(postUrl, body, options).map(res => { return res.json() })
         //.flatMap((mock) => this._http.post(this.config.apiEndpoint + 'Patients/' + mock.hn + '/address', body2, options))            
     }
-    /*
-        put(patient: Patient, address: Address) {
-            let body = JSON.stringify(patient);
-            let headers = new Headers({ 'Content-Type': 'application/json' });
-            let options = new RequestOptions({ headers: headers, method: 'put' });
-            let putUrl = this.config.apiEndpoint + 'Patients/' + patient.hn;
-    
-            return this._http.put(putUrl, body, options)
-                .map((res: Response) => {
-                    this.mockPatient = res.json();
-                    return this.mockPatient;
-                })
-        }
-    */
 
     roomList = [
         { col: 'stdiag', name: 'ห้องตรวจโรคทั่วไป' },
@@ -76,6 +62,19 @@ export class RegisterService {
         return this._http.post(postUrl, body, options).map(res => { return res.json() })
         //.flatMap((mock) => this._http.post(this.config.apiEndpoint + 'Patients/' + mock.hn + '/address', body2, options))            
     }
+
+
+    updatePatient(patient: Patient) {
+
+        let body = JSON.stringify(patient);
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers, method: 'put' });
+        let putUrl = this.config.apiEndpoint + 'Patients?access_token=' + localStorage.getItem('token');
+
+        return this._http.put(putUrl, body, options)
+            .map((res: Response) => { return res.json() })
+    }
+
 
     en2thdate(d: any) { //แปลงวันที่จาก eng เป็น thai
         if (d) { // วันที่ไม่ใช่ค่าว่าง
