@@ -20,7 +20,7 @@ export class SearchPatientComp {
     private searchTermStream = new Subject<string>(); // stream ที่สร้างจาก input ของเรา    
 
     patients: any;
-    keyword: any = '234';
+    keyword: any = '701';
     showDialog: boolean = false;
 
     onSelect(patient: any) {

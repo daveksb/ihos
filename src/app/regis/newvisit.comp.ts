@@ -22,6 +22,7 @@ import * as _ from 'lodash';
 
 export class NewVisitComp implements OnInit {
 
+    curPath: any;
     newRegNo: any;
     newQ: any;
     tempPatient: Patient = new Patient('');
@@ -50,6 +51,8 @@ export class NewVisitComp implements OnInit {
         private searchService: SearchPatientService,
         private _fb: FormBuilder,
         private confirmationService: ConfirmationService) {
+
+        this.curPath = route.snapshot.params;
         this.items1 = this.searchTermStream1.debounceTime(300).distinctUntilChanged().switchMap((term: string) => this.regisService.getHos(term));
         this.items2 = this.searchTermStream2.debounceTime(300).distinctUntilChanged().switchMap((term: string) => this.regisService.getHos(term));
     }
@@ -57,15 +60,14 @@ export class NewVisitComp implements OnInit {
     ngOnInit() {
         this.createRegNo();
         this.initForm();
-        this.route.params.subscribe(
-            params => {
-                if (params['hn']) {  // เฉพาะเมื่อมีค่า hn ส่งมาทาง url จึงทำส่วนนี้
-                    this.searchService.getPatient(params['hn']).subscribe(
-                        res => { this.patientChanged(res) }
-                    )
-                }
-            }
-        );
+
+        //เฉพาะ กรณี ระบุ hn มาใน url
+        if (this.curPath.hn) {
+            console.log('cur path =', this.curPath.hn);
+            this.searchService.getPatient(this.curPath.hn)
+                .subscribe(res => { this.patientChanged(res) })
+        }
+
         this.isOfficeHour();
         this.items1.subscribe(val => this.hos1List = val);  // ดักรอค่า hos1List
         this.items2.subscribe(val => this.hos2List = val);
@@ -78,13 +80,6 @@ export class NewVisitComp implements OnInit {
 
     editPatient() {
         this.router.navigate(['/edit-patient', this.tempPatient.hn]);
-    }
-
-    printOpd() {
-        this.regisService.opdCard(this.tempPatient).subscribe(res => { });
-        setTimeout(() => {
-            window.open(this.config.serverIP + 'output.docx', '_blank');
-        }, 350);
     }
 
     searchHos1(term: string) {
@@ -138,15 +133,6 @@ export class NewVisitComp implements OnInit {
         })
     }
 
-    index2string(index, type) {
-        let temp = [{ name: '' }];
-        if (type == 'nation') { temp = _.filter(this.nationList, { 'code': index }) }
-        if (type == 'occupa') { temp = _.filter(this.occupaList, { 'code': index }) }
-        if (type == 'class') { temp = _.filter(this.classList, { 'code': index }) }
-        let result = temp[0].name;
-        return result;
-    }
-
     getAge(bd) {
         let today = new Date();
         let birthDate = new Date(bd);
@@ -158,10 +144,33 @@ export class NewVisitComp implements OnInit {
     }
 
     classChanged(input) {
-
         let val = _.filter(this.classList, { 'code': input })
-
         this.visitForm.patchValue({ stclass: val[0].type });
+    }
+
+    printOpd() {
+
+        this.tempPatient.nationTH = this.index2string(this.tempPatient.nation, 'nation');
+        this.tempPatient.raceTH = this.index2string(this.tempPatient.race, 'nation');
+        this.tempPatient.occupaTH = this.index2string(this.tempPatient.occupa, 'occupa');
+        this.tempPatient.classTH = this.index2string(this.tempPatient.class, 'class');
+        this.tempPatient.todayTH = this.regisService.en2thdate(new Date());
+
+        this.regisService.opdCard(this.tempPatient).subscribe(res => { });
+        setTimeout(() => {
+            window.open(this.config.serverIP + 'output.docx', '_blank');
+        }, 350);
+    }
+
+    index2string(value, type) {
+        let temp = [{ name: '' }];
+        if (type == 'nation') { temp = _.filter(this.nationList, { 'code': value }) }
+        if (type == 'occupa') { temp = _.filter(this.occupaList, { 'code': value }) }
+        if (type == 'class') { temp = _.filter(this.classList, { 'code': value }) }
+
+        let result = temp[0].name;
+        //console.log(type, ':', temp);
+        return result;
     }
 
     patientChanged(patient: Patient) {
@@ -176,13 +185,7 @@ export class NewVisitComp implements OnInit {
         this.tempPatient.insEdateTH = this.regisService.en2thdate(patient.insureEdate);
         this.tempPatient.lastdateTH = this.regisService.en2thdate(patient.lastdate);
         this.tempPatient.birthdayTH = this.regisService.en2thdate(patient.birthday);
-        this.tempPatient.nationTH = this.index2string(this.tempPatient.nation, 'nation');
-        this.tempPatient.raceTH = this.index2string(this.tempPatient.race, 'nation');
-        this.tempPatient.occupaTH = this.index2string(this.tempPatient.occupa, 'occupa');
-        this.tempPatient.classTH = this.index2string(this.tempPatient.class, 'class');
-        this.tempPatient.todayTH = this.regisService.en2thdate(new Date());
         this.tempPatient.age = this.getAge(patient.birthday);
-        this.classChanged(patient.class);
 
         this.visitForm.patchValue({
             regno: this.newRegNo,
@@ -228,10 +231,18 @@ export class NewVisitComp implements OnInit {
         );
     }
 
+    resetPatient() {
+        this.visitForm.reset();
+        this.tempPatient = new Patient('');
+        this.tempPatient.insBdateTH = '';
+        this.tempPatient.insEdateTH = '';
+        this.tempPatient.lastdateTH = '';
+    }
+
     createVisit(diagReg: DiagReg) {
         console.log('create visit , DiagReg = ', diagReg);
         this.regisService.insertDiagReg(diagReg).subscribe(
-            data => { JSON.stringify(data); this.createRegNo(); }, // put the data returned from the server in our variable
+            data => { JSON.stringify(data); this.createRegNo(); this.resetPatient() }, // put the data returned from the server in our variable
             error => console.log(error), // in case of failure show this message
             () => { alert('บันทึกข้อมูลเรียบร้อย หมายเลข visit: ' + diagReg.regno); }
         );

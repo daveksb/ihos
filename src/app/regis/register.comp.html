@@ -5,7 +5,8 @@
 
         <div class="card">
             <div class="card-header">
-                <h5> ข้อมูลหลัก</h5>
+                <h5 *ngIf=" curPath=='register' "> ข้อมูลหลัก </h5>
+                <h5 *ngIf=" curPath=='edit-patient/:hn' "> HN : {{curHn}} </h5>
             </div>
             <div class="card-block bg-white">
                 <div class="row">
@@ -238,9 +239,15 @@
             </div>
             <div class="p-2">
                 <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
-                <!--                <button (click)="confirm(regisForm.value)" [disabled]="!regisForm.valid" class="btn btn-success">ตกลง</button>
--->
-                <button (click)="updatePatient(regisForm.value)" [disabled]="!regisForm.valid" class="btn btn-success">ตกลง</button>
+
+                <div *ngIf="curPath == 'register' ">
+                    <button (click)="confirmAdd(regisForm.value)" [disabled]="!regisForm.valid" class="btn btn-success">สร้าง</button>
+                </div>
+
+                <div *ngIf="curPath == 'edit-patient/:hn' ">
+                    <button (click)="confirmEdit(regisForm.value)" [disabled]="!regisForm.valid" class="btn btn-success">บันทึก</button>
+                </div>
+
             </div>
             <div class="p-2">
                 <button type="reset" class="btn btn-warning">ยกเลิก</button>

@@ -15,6 +15,7 @@ import * as _ from 'lodash';
 export class RegisterComp implements OnInit {
 
     regisForm: FormGroup;
+    curPath: string;
     newHN: string;
     titlesList = [];
     provinceList = [];
@@ -42,6 +43,9 @@ export class RegisterComp implements OnInit {
         protected router: Router, protected route: ActivatedRoute,
         protected regService: RegisterService, protected _fb: FormBuilder,
         protected confirmationService: ConfirmationService) {
+
+        //console.log('route.snapshot.path =', route.snapshot.routeConfig.path);
+        this.curPath = route.snapshot.routeConfig.path;
 
         //console.log('constructor of Base')
         this.items1 = this.searchTermStream1.debounceTime(300).distinctUntilChanged().switchMap((term: string) => this.regService.getHos(term));
@@ -73,19 +77,18 @@ export class RegisterComp implements OnInit {
             let tempHN = val.hn.split("/");
             let numhn: number = parseInt(tempHN[0]) + 1;
             this.newHN = numhn + '/60';
-            console.log('newHN=', this.newHN);
+            //console.log('newHN=', this.newHN);
             this.regisForm.controls['hn'].setValue(this.newHN);
         });
     }
 
-    confirm(regisForm: Patient) {
+    confirmAdd(regisForm: Patient) {
         this.confirmationService.confirm({
             message: 'บันทึกข้อมูลผู้ป่วยใหม่ ?',
             accept: () => { //console.log('regisForm= ', regisForm);
                 this.regService.createPatient(regisForm).subscribe(() => {
                     //alert('บันทึกข้อมูลเรียบร้อย หมายเลข HN: ' + regisForm.hn);
                     this.alertMsg.push({ severity: 'warn', summary: 'บันทึกข้อมูลเรียบร้อย', detail: 'หมายเลข HN: ' + regisForm.hn });
-
                     setTimeout(() => { this.router.navigate(['newvisit', { hn: regisForm.hn }]); }, 3000);  // redirect ไปยังหน้า ลงทะเบียน
                 });
             }
