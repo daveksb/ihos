@@ -1,0 +1,6 @@
+npm install primeng --save
+
+npm install bootstrap@4.0.0-alpha.6 --save
+
+npm install --save lodash
+npm i --save-dev @types/lodash
