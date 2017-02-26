@@ -10,9 +10,6 @@
             <button (click)="editPatient()" class="btn btn-secondary">แก้ไขประวัติ</button>
         </div>
         <div class="p-2">
-            <button (click)="printOpd()" [disabled]="!tempPatient.hn" class="btn btn-secondary">พิมพ์ OPD-Card</button>
-        </div>
-        <div class="p-2">
             <button class="btn btn-secondary">  วันที่ {{clock | async | date:'dd/MM/yyyy เวลา HH:mm:ss' }}</button>
         </div>
         <div class="p-2">
@@ -155,14 +152,20 @@
             </div>
         </div>
 
-        <div class="my-form d-flex flex-row-reverse">
+        <div class="my-form d-flex justify-content-end">
+            <div class="mr-auto p-2">
+                <button (click)="printOpd()" [disabled]="!tempPatient.hn" class="btn btn-secondary">พิมพ์ OPD-Card</button>
+            </div>
+
+            <div class="p-2">
+                <button type="reset" class="btn btn-warning">ยกเลิก</button>
+            </div>
+
             <div class="p-2">
                 <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="400"></p-confirmDialog>
                 <button type="submit" (click)="confirm(visitForm.value)" [disabled]="!visitForm.valid || currentRoom.length < 2" class="btn btn-success">ตกลง</button>
             </div>
-            <div class="p-2">
-                <button type="reset" class="btn btn-warning">ยกเลิก</button>
-            </div>
+
         </div>
 
     </form>
