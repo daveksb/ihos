@@ -13,6 +13,8 @@ import { ConfirmationService } from 'primeng/primeng';
 import { Observable } from 'rxjs/Rx';
 import { Subject } from 'rxjs/Subject';
 import * as _ from 'lodash';
+import * as moment from 'moment';
+
 
 @Component({
     selector: 'newvisit',
@@ -211,19 +213,23 @@ export class NewVisitComp implements OnInit {
 
     createRegNo() {
         //console.log('call : create regno ');
-        let temp = new Date().toLocaleDateString([], { month: "2-digit", day: "2-digit" });
+        //let temp = new Date().toLocaleDateString([], { month: "2-digit", day: "2-digit" });
+
+        let temp = moment().format("MM-DD");
+        //console.log('temp =', temp);
+
         this.regisService.getLastQue().subscribe(
             data => {
                 if (data === null) { // กรณีวันนั้น ไม่มี que ก่อนหน้า
                     this.newQ = 1;
-                    this.newRegNo = '60-' + temp.slice(0, 2) + '-' + temp.slice(3, 6) + '-' + this.regisService.leftPad(1, 4);
+                    this.newRegNo = '60-' + temp + '-' + this.regisService.leftPad(1, 4);
                     console.log('NULL new reg no = ', this.newRegNo);
 
                 } else {  // กรณีวันนั้น มี que ก่อนหน้า
 
                     let newQ = data.qno + 1;
-                    let result = '60-' + temp.slice(0, 2) + '-' + temp.slice(3, 6) + '-' + this.regisService.leftPad(newQ, 4);
-                    console.log('NULL new reg no = ', result);
+                    let result = '60-' + temp + '-' + this.regisService.leftPad(newQ, 4);
+                    console.log('Not NULL new reg no = ', result);
                     this.newRegNo = result;
                     this.newQ = newQ;
                 }

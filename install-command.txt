@@ -4,3 +4,10 @@ npm install bootstrap@4.0.0-alpha.6 --save
 
 npm install --save lodash
 npm i --save-dev @types/lodash
+
+
+
+npm install moment --save
+npm install @types/moment --save
+"scripts": [ "../node_modules/moment/min/moment.min.js" ]
+import * as moment from 'moment';
