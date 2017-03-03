@@ -21,6 +21,7 @@
     </div>
 
     <div class="my-form">
+        <p-growl [value]="msgs"></p-growl>
         <search-patient (patientWasSelect)="patientChanged($event)"></search-patient>
     </div>
 
@@ -155,6 +156,7 @@
         <div class="my-form d-flex justify-content-end">
             <div class="mr-auto p-2">
                 <button (click)="printOpd()" [disabled]="!tempPatient.hn" class="btn btn-secondary">พิมพ์ OPD-Card</button>
+                <button (click)="printPrescription()" [disabled]="!tempPatient.hn" class="btn btn-secondary">พิมพ์ ใบสั่งยา</button>
             </div>
 
             <div class="p-2">

@@ -1,42 +1,39 @@
 <nav class="navbar navbar-toggleable-md navbar-light bg-success">
 	<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-		aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 		</button>
-		<a class="navbar-brand" href="#">เมนู</a>
+	<a class="navbar-brand" href="#">เมนู</a>
 
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item">
-					<a class="nav-link" routerLink="patient-list" routerLinkActive="active">หน้าแรก</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" routerLink="register" routerLinkActive="active">ผู้ป่วยใหม่</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" routerLink="newvisit" routerLinkActive="active">ลงทะเบียนเข้าตรวจ</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" routerLink="patient-list" routerLinkActive="active">ผู้ป่วยรอรับบริการ</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" routerLink="report-lab" routerLinkActive="active">ผล-Lab</a>
-				</li>
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">รายงาน </a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-						<a class="dropdown-item" routerLink="report-icd10tm">แยกตามหัตถการ</a>
-						<a class="dropdown-item" routerLink="report-geo">แยกตามที่อยู่</a>
-						<a class="dropdown-item" routerLink="report-age">แยกตามช่วงอายุ</a>
-					</div>
-				</li>
-				<li class="nav-item" *ngIf="!isLogin.value">
-					<a class="nav-link" routerLink="login">Log In</a>
-				</li>
-				<li class="nav-item" *ngIf="isLogin.value">
-					<a class="nav-link" routerLink="login">Log Out</a>
-				</li>
-			</ul>
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item">
+				<a class="nav-link" routerLink="register" routerLinkActive="active">ผู้ป่วยใหม่</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" routerLink="newvisit" routerLinkActive="active">ลงทะเบียนเข้าตรวจ</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" routerLink="patient-list" routerLinkActive="active">ผู้ป่วยรอรับบริการ</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" routerLink="report-lab" routerLinkActive="active">ผล-Lab</a>
+			</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">รายงาน </a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+					<a class="dropdown-item" routerLink="report-icd10tm">แยกตามหัตถการ</a>
+					<a class="dropdown-item" routerLink="report-geo">แยกตามที่อยู่</a>
+					<a class="dropdown-item" routerLink="report-age">แยกตามช่วงอายุ</a>
+				</div>
+			</li>
+			<li class="nav-item" *ngIf="!(loginStatus | async)">
+				<a class="nav-link" routerLink="login">Log In</a>
+			</li>
+			<li class="nav-item" *ngIf="loginStatus | async">
+				<a class="nav-link" routerLink="login">Log Out</a>
+			</li>
+		</ul>
 
-		</div>
+	</div>
 </nav>

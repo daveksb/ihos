@@ -11,7 +11,7 @@ export class AuthGuard implements CanActivate {
         //console.log('Auth-Guard Called : checking to see if logged in');
         //return this.loginService.isLogin;
 
-        if (localStorage.getItem('isLogin')) { return true; }
+        if (localStorage.getItem('token')) { return true; }
 
         return false;
     }

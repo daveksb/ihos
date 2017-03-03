@@ -9,7 +9,7 @@ import { Patient } from '../share/model/patient';
 import { DiagReg } from '../share/model/diagreg';
 
 import { SearchPatientComp } from '../share/component/search.comp';
-import { ConfirmationService } from 'primeng/primeng';
+import { ConfirmationService, Message } from 'primeng/primeng';
 import { Observable } from 'rxjs/Rx';
 import { Subject } from 'rxjs/Subject';
 import * as _ from 'lodash';
@@ -35,10 +35,12 @@ export class NewVisitComp implements OnInit {
     hos2List = [];
     nationList = [];
     occupaList = [];
-    currentRoom: string = '';
+    currentRoom: string = 'stdiag';
     clock: any;
     officeHour: boolean;
     buttonNum = [{ min: -1, max: 3 }, { min: 2, max: 6 }, { min: 5, max: 9 }, { min: 8, max: 12 }, { min: 11, max: 15 }];
+
+    msgs: Message[] = [];
 
     items1: Observable<string[]>; // ผลลัพทธ์ การค้นหา
     items2: Observable<string[]>;
@@ -159,9 +161,16 @@ export class NewVisitComp implements OnInit {
         this.tempPatient.todayTH = this.regisService.en2thdate(new Date());
 
         this.regisService.opdCard(this.tempPatient).subscribe(res => { });
-        setTimeout(() => {
-            window.open(this.config.serverIP + 'output.docx', '_blank');
-        }, 350);
+        setTimeout(() => { window.open(this.config.serverIP + 'opdcard.docx', '_blank'); }, 350);
+    }
+
+    printPrescription() {
+
+        this.tempPatient.classTH = this.index2string(this.tempPatient.class, 'class');
+        this.tempPatient.todayTH = this.regisService.en2thdate(new Date());
+        this.regisService.prescription(this.tempPatient).subscribe(res => { });
+
+        setTimeout(() => { window.open(this.config.serverIP + 'prescription.docx', '_blank'); }, 350);
     }
 
     index2string(value, type) {
@@ -248,9 +257,14 @@ export class NewVisitComp implements OnInit {
     createVisit(diagReg: DiagReg) {
         console.log('create visit , DiagReg = ', diagReg);
         this.regisService.insertDiagReg(diagReg).subscribe(
-            data => { JSON.stringify(data); this.createRegNo(); this.resetPatient() }, // put the data returned from the server in our variable
-            error => console.log(error), // in case of failure show this message
-            () => { alert('บันทึกข้อมูลเรียบร้อย หมายเลข visit: ' + diagReg.regno); }
+            data => {
+                JSON.stringify(data);
+                this.createRegNo();
+                this.resetPatient()
+                this.msgs.push({ severity: 'info', summary: 'บันทึกข้อมูลเรียบร้อย', detail: 'หมายเลข Visit: ' + diagReg.regno });
+                setTimeout(() => { this.router.navigate(['patient-list']); }, 2000);
+            },
+            error => { alert(error) },
         );
     }
 

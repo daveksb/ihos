@@ -10,12 +10,12 @@ import { GrowlModule, Message } from 'primeng/primeng';
 export class LoginComponent implements OnInit {
 
     alertMsg: Message[] = [];
-    isLogin: any;
+    loginStatus: any;
 
     loginform: Object = { username: '', password: '', ttl: 0 };
 
-    constructor(private _http: LoginService) {
-        this.isLogin = _http.isLogin;
+    constructor(private loginService: LoginService) {
+        this.loginStatus = loginService.loginStatus;
     }
 
     ngOnInit() { }
@@ -27,13 +27,13 @@ export class LoginComponent implements OnInit {
             "password": loginform.password,
             "ttl": 43200  //6hours
         }
-        this._http.login(body);
-        this.alertMsg = this._http.msg;
+        this.loginService.login(body);
+        this.alertMsg = this.loginService.msg;
     }
 
     logout() {
         //console.log('logout comp')
-        this._http.logout();
+        this.loginService.logout();
         this.alertMsg.push({ severity: 'warn', summary: 'ออกจากระบบเรียบร้อย !!', detail: '' });
     }
 

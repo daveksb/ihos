@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { DataTableModule, SharedModule, DialogModule, InputMaskModule, ConfirmDialogModule, GrowlModule } from 'primeng/primeng';
+import { DataTableModule, SharedModule, DialogModule, InputMaskModule, ConfirmDialogModule, GrowlModule, MessagesModule } from 'primeng/primeng';
 import { ShareModule } from '../share/share.module';
 
 import { RegisterComp } from './register.comp';
@@ -15,7 +15,7 @@ import { SearchPatientService } from '../share/service/search.service';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    InputMaskModule, DialogModule, DataTableModule, SharedModule, ConfirmDialogModule, GrowlModule,
+    InputMaskModule, DialogModule, DataTableModule, SharedModule, ConfirmDialogModule, GrowlModule, MessagesModule,
     ShareModule
   ],
   declarations: [RegisterComp, EditPatientComp, NewVisitComp],

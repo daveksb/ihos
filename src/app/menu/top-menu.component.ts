@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { LoginService } from '../login/login.service';
 
 @Component({
@@ -6,21 +6,14 @@ import { LoginService } from '../login/login.service';
     templateUrl: './top-menu.component.html',
     styleUrls: ['./top-menu.component.css']
 })
-export class TopMenuComponent implements OnInit {
+export class TopMenuComponent {
 
     username: string;
 
-    isLogin: any
+    loginStatus: any
 
     constructor(loginService: LoginService) {
-        this.isLogin = loginService.isLogin;
+        this.loginStatus = loginService.loginStatus
     }
 
-    ngOnInit() {
-        this.username = localStorage.getItem('username');
-    }
-
-    logout() {
-        localStorage.clear();
-    }
 }

@@ -17,7 +17,7 @@ import { PatientModule } from './patient/patient.module';
 import { ReportModule } from './report/report.module';
 import { LoginService } from './login/login.service';
 import { LoginComponent } from './login/login.component';
-import { ConfirmDialogModule, ConfirmationService, GrowlModule } from 'primeng/primeng';
+import { ConfirmDialogModule, ConfirmationService, GrowlModule, MessagesModule } from 'primeng/primeng';
 
 @NgModule({
     declarations: [
@@ -39,6 +39,7 @@ import { ConfirmDialogModule, ConfirmationService, GrowlModule } from 'primeng/p
         PatientModule,
         ConfirmDialogModule,
         GrowlModule,
+        MessagesModule
     ],
     providers: [
         //AuthGuard,

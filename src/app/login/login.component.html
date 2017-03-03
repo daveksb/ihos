@@ -9,23 +9,23 @@
             </div>
 
             <div class="row justify-content-center">
-                <h2 *ngIf="!isLogin.value">iHos</h2>
+                <h2 *ngIf="!(loginStatus | async)">iHos</h2>
             </div>
 
             <form role="form">
 
-                <div class="form-group" *ngIf="!isLogin.value">
+                <div class="form-group" *ngIf="!(loginStatus | async)">
                     <label for="username">Username</label>
                     <input type="text" name="username" [(ngModel)]="loginform.username" class="form-control">
                 </div>
-                <div class="form-group" *ngIf="!isLogin.value">
+                <div class="form-group" *ngIf="!(loginStatus | async)">
                     <label for="password">Password</label>
                     <input type="password" name="password" [(ngModel)]="loginform.password" class="form-control">
                 </div>
 
                 <div class="row justify-content-center">
-                    <button (click)="login(loginform)" *ngIf="!isLogin.value" class="btn btn-info">Login</button>
-                    <button (click)="logout()" *ngIf="isLogin.value" class="btn btn-warning">Logout</button>
+                    <button (click)="login(loginform)" *ngIf="!(loginStatus | async)" class="btn btn-info">Login</button>
+                    <button (click)="logout()" *ngIf="loginStatus | async" class="btn btn-warning">Logout</button>
                 </div>
                 <p-growl [value]="alertMsg"></p-growl>
             </form>

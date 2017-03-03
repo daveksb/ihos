@@ -22,6 +22,13 @@ export class RegisterService {
         return this._http.post(this.config.reportApi + "opd", body, options).map((response) => { return response.json(); });
     }
 
+    prescription(patient: Object) {
+        let body = JSON.stringify(patient);
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers, method: 'post' });
+        return this._http.post(this.config.reportApi + "prescription", body, options).map((response) => { return response.json(); });
+    }
+
     insertDiagReg(diagReg: DiagReg) {
         let body = JSON.stringify(diagReg);
         let headers = new Headers({ 'Content-Type': 'application/json' });
