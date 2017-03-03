@@ -1,11 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import 'rxjs/add/operator/map';
 import { APP_CONFIG } from '../app.config';
 import { IAppConfig } from '../app.config.interface';
-import { Router } from '@angular/router';
 import { Message } from 'primeng/primeng';
 
 export interface LogStatus {
