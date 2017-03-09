@@ -42,8 +42,8 @@ export class NewVisitComp implements OnInit {
 
     msgs: Message[] = [];
 
-    items1: Observable<string[]>; // ผลลัพทธ์ การค้นหา
-    items2: Observable<string[]>;
+    obs1: Observable<string[]>; // ผลลัพทธ์ การค้นหา
+    obs2: Observable<string[]>;
     private searchTermStream1 = new Subject<string>(); // stream ที่สร้างจาก input ของเรา
     private searchTermStream2 = new Subject<string>(); // stream ที่สร้างจาก input ของเรา
 
@@ -57,8 +57,16 @@ export class NewVisitComp implements OnInit {
         private confirmationService: ConfirmationService) {
 
         this.curPath = route.snapshot.params;
-        this.items1 = this.searchTermStream1.debounceTime(300).distinctUntilChanged().switchMap((term: string) => this.regisService.getHos(term));
-        this.items2 = this.searchTermStream2.debounceTime(300).distinctUntilChanged().switchMap((term: string) => this.regisService.getHos(term));
+
+        this.obs1 = this.searchTermStream1.filter(x => x.length > 3).do(x => console.log('obs1:', x))
+            .debounceTime(500).distinctUntilChanged().switchMap((term: string) => this.regisService.getHos(term));
+
+        this.obs2 = this.searchTermStream2.filter(x => x.length > 3).do(x => console.log('obs2:', x))
+            .debounceTime(500).distinctUntilChanged().switchMap((term: string) => this.regisService.getHos(term));
+
+        const res = route.snapshot.routeConfig.path
+        console.log('res = ', res);
+
     }
 
     ngOnInit() {
@@ -67,14 +75,14 @@ export class NewVisitComp implements OnInit {
 
         //เฉพาะ กรณี ระบุ hn มาใน url
         if (this.curPath.hn) {
-            console.log('cur path =', this.curPath.hn);
+            //console.log('cur path =', this.curPath.hn);
             this.searchService.getPatient(this.curPath.hn)
                 .subscribe(res => { this.patientChanged(res) })
         }
 
         this.isOfficeHour();
-        this.items1.subscribe(val => this.hos1List = val);  // ดักรอค่า hos1List
-        this.items2.subscribe(val => this.hos2List = val);
+        this.obs1.subscribe(val => this.hos1List = val);  // ดักรอค่า hos1List
+        this.obs2.subscribe(val => this.hos2List = val);
         this.clock = Observable.interval(1000).map(() => new Date());
         this.rooms = this.regisService.roomList;
         this.regisService.getTable('socials').subscribe(res => this.classList = res);  //สิทธิ์
@@ -87,17 +95,18 @@ export class NewVisitComp implements OnInit {
     }
 
     searchHos1(term: string) {
-        if (term.length > 3) {
-            this.searchTermStream1.next(term);
-            this.visitForm.patchValue({ hos1: term }); //กำหนดค่าให้ drop down hos1
-        }
-    } // function ที่รับ string มา แล้วทำการสร้าง observable ใหม่ขึ้นมา
+        this.searchTermStream1.next(term)
+        this.visitForm.patchValue({ hos1: term }); //กำหนดค่าให้ drop down hos1
+        /*
+                if (term.length > 3) {
+                    this.searchTermStream1.next(term);
+                }
+        */
+    } // function ที่รับ string แล้วสร้าง observable ใหม่ขึ้นมา
 
     searchHos2(term: string) {
-        if (term.length > 3) {
-            this.searchTermStream2.next(term);
-            this.visitForm.patchValue({ hos2: term }); //กำหนดค่าให้ drop down hos1
-        }
+        this.searchTermStream2.next(term);
+        this.visitForm.patchValue({ hos2: term }); //กำหนดค่าให้ drop down hos1
     }
 
     isOfficeHour() {

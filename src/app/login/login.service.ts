@@ -6,9 +6,9 @@ import { APP_CONFIG } from '../app.config';
 import { IAppConfig } from '../app.config.interface';
 import { Message } from 'primeng/primeng';
 
-export interface LogStatus {
+/*export interface LogStatus {
     value: Boolean;
-}
+}*/
 
 @Injectable()
 export class LoginService {
@@ -39,12 +39,11 @@ export class LoginService {
     }
 
     logout(): void {
-        // clear token remove user from local storage to log user out
+        // clear token and remove user from local storage
         //console.log('logout service')
         localStorage.clear();
         this.loginStatus.next('');
     }
-
 
 
 }

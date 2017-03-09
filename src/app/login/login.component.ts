@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { LoginService } from './login.service';
 import { GrowlModule, Message } from 'primeng/primeng';
 
@@ -7,7 +7,7 @@ import { GrowlModule, Message } from 'primeng/primeng';
     templateUrl: './login.component.html',
 })
 
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
     alertMsg: Message[] = [];
     loginStatus: any;
@@ -17,8 +17,6 @@ export class LoginComponent implements OnInit {
     constructor(private loginService: LoginService) {
         this.loginStatus = loginService.loginStatus;
     }
-
-    ngOnInit() { }
 
     login(loginform) {
 
