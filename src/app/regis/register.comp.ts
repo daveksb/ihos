@@ -18,6 +18,7 @@ export class RegisterComp implements OnInit {
     curPath: string;
     newHN: string;
     titlesList = [];
+    titleSex: any;//Object = { Sex: '', TName: '' };
     provinceList = [];
     ampurList = [];
     tambonList = [];
@@ -40,23 +41,25 @@ export class RegisterComp implements OnInit {
     private searchTermStream2 = new Subject<string>(); // stream ที่สร้างจาก input ของเรา
 
     constructor(
+
         protected router: Router, protected route: ActivatedRoute,
         protected regService: RegisterService, protected _fb: FormBuilder,
-        protected confirmationService: ConfirmationService) {
+        protected confirmService: ConfirmationService) {
 
         //console.log('route.snapshot.path =', route.snapshot.routeConfig.path);
         this.curPath = route.snapshot.routeConfig.path;
+        //console.log('current path = ', this.curPath);
 
         //console.log('constructor of Base')
         this.items1 = this.searchTermStream1.debounceTime(300).distinctUntilChanged().switchMap((term: string) => this.regService.getHos(term));
         this.items2 = this.searchTermStream2.debounceTime(300).distinctUntilChanged().switchMap((term: string) => this.regService.getHos(term));
 
         this.regisForm = this._fb.group({
-            titles: null, name: ['testname', Validators.required],
-            surname: ['teatsurname', Validators.required],
+            titles: null, name: [null, Validators.required],
+            surname: [null, Validators.required],
             sex: null, blood: 'AB', birthday: null,
             age: null, addr: '', moo: '', province: '360000', ampur: '360800', tambon: '360801',
-            phone: '', father: '', mother: '', drughyper: '', contact: '',
+            phone: '', father: '', mother: '', drughyper: 'ไม่ทราบประวัติแพ้ยา', contact: '',
             addrContact: '', phoneContact: '', class: '', personId: '', marriage: '',
             occupa: '', nation: '01', race: '01', insureCard: '', insureBdate: null, insureEdate: null,
             hos1: '', hos2: '', note: '', hn: this.newHN, lastdate: this.regService.getTime()
@@ -83,7 +86,7 @@ export class RegisterComp implements OnInit {
     }
 
     confirmAdd(regisForm: Patient) {
-        this.confirmationService.confirm({
+        this.confirmService.confirm({
             message: 'บันทึกข้อมูลผู้ป่วยใหม่ ?',
             accept: () => { //console.log('regisForm= ', regisForm);
                 this.regService.createPatient(regisForm).subscribe(() => {
@@ -177,11 +180,12 @@ export class RegisterComp implements OnInit {
     }
 
     titlesChanged() {
-        /*        this.regisForm.patchValue({
-                    sex: this.titlesSex.sex.replace(" ", ""), // กำจัดช่องวางทั้งหมดออก    
-                    titles: this.titlesSex.tname             // เนื่องจาก titles ใน form เราไม่ได้ ใช้ formControlname แต่ใช้ ngModel แทน และ รับ object แทนที่จะเป็น string
-                    //this.regisForm.patchValue({ titles: this.titlesSex.tname });  ใช้ไม่ได้ เพราะตอนนี้เรามองค่าที่ส่งมาเป็น Object ไม่ใช่ Form
-                });*/
+        //this.titleSex = val;
+        console.log('tt sex  =', this.titleSex);
+        this.regisForm.patchValue({
+            sex: this.titleSex.sex.replace(" ", ""), // กำจัดช่องวางทั้งหมดออก    
+            titles: this.titleSex.tname             // เนื่องจาก titles ใน form เราไม่ได้ ใช้ formControlname แต่ใช้ ngModel แทน และ รับ object แทนที่จะเป็น string
+        });
     }
 
 }

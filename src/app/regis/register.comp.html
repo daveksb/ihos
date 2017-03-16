@@ -11,8 +11,8 @@
                 <div class="row">
                     <div class="col-2">
                         <label>คำนำหน้า </label>
-                        <select (change)="titlesChanged()" formControlName="titles" class="form-control">
-                                <option *ngFor="let c of titlesList" [value]="c.tname" >{{c.tname}}</option>
+                        <select (change)="titlesChanged()" [(ngModel)]="titleSex" [ngModelOptions]="{standalone: true}" class="form-control">
+                                <option *ngFor="let c of titlesList" [ngValue]="c" >{{c.tname}}</option>
                         </select>
                     </div>
                     <div class="col-2">

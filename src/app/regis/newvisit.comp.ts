@@ -131,7 +131,7 @@ export class NewVisitComp implements OnInit {
             age: null, room: '00', count: 0, typedate: null,
             insureCard: null, insureBdate: null, insureEdate: null,
             hos1: null, hos2: null, date: null, time: null, class: null,
-            refer: 99, stpatient: 1, stdiag: 1, stspclinic: 1, stsanita: 1,
+            refer: 99, stpatient: 1, stdiag: 2, stspclinic: 1, stsanita: 1,
             stdent: 1, sthp: 1, stlr: 1, ster: 1, stxray: 1, stlab: 1, stadmit: 1, stor: 1,
             stherbal: 1, stdrug: 1, stpay: 1, stopd: 1, stdrg: 1, stdrger: 1, stdead: 1,
             stadiag: 1, stobs: 1, stfree: 1, stherbal2: 1, stccc: 1, stpcard: 1, stclass: null
@@ -217,12 +217,12 @@ export class NewVisitComp implements OnInit {
             name: patient.name,
             surname: patient.surname,
             age: this.tempPatient.age,
-            date: new Date(),
+            date: moment().format("YYYY-MM-DD"),
             class: patient.class,
             insureCard: patient.insureCard,
             hos1: patient.hos1,
             hos2: patient.hos2,
-            time: new Date().toTimeString().slice(0, 8), //เอาแค่ 8 ตัวแรก ถ้าเกินจะเกิด error
+            time: moment().format("HH:mm:ss"),//new Date().toTimeString().slice(0, 8), //เอาแค่ 8 ตัวแรก ถ้าเกินจะเกิด error
         });
         //console.log('Patient = ', patient);
         //console.log('current room = ', this.currentRoom);
@@ -241,13 +241,13 @@ export class NewVisitComp implements OnInit {
                 if (data === null) { // กรณีวันนั้น ไม่มี que ก่อนหน้า
                     this.newQ = 1;
                     this.newRegNo = '60-' + temp + '-' + this.regisService.leftPad(1, 4);
-                    console.log('NULL new reg no = ', this.newRegNo);
+                    //console.log('NULL new reg no = ', this.newRegNo);
 
                 } else {  // กรณีวันนั้น มี que ก่อนหน้า
 
                     let newQ = data.qno + 1;
                     let result = '60-' + temp + '-' + this.regisService.leftPad(newQ, 4);
-                    console.log('Not NULL new reg no = ', result);
+                    //console.log('Not NULL new reg no = ', result);
                     this.newRegNo = result;
                     this.newQ = newQ;
                 }
@@ -264,7 +264,7 @@ export class NewVisitComp implements OnInit {
     }
 
     createVisit(diagReg: DiagReg) {
-        console.log('create visit , DiagReg = ', diagReg);
+        //console.log('create visit , DiagReg = ', diagReg);
         this.regisService.insertDiagReg(diagReg).subscribe(
             data => {
                 JSON.stringify(data);

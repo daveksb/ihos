@@ -23,14 +23,15 @@ export class EditPatientComp extends RegisterComp {
         route: ActivatedRoute,
         regService: RegisterService,
         _fb: FormBuilder,
-        confirmationService: ConfirmationService,
+        confirmService: ConfirmationService,
         protected searchService: SearchPatientService) {
 
-        super(router, route, regService, _fb, confirmationService)
+        super(router, route, regService, _fb, confirmService)
     }
 
     ngAfterViewInit() { // ไมใช้ ngOnInit เพราะจะไปทำให้ ngOnInit ของ Base ไม่ทำงาน จึงเลี่ยงมาใช้ ngAfterViewInit แทน
 
+        console.log('titleSex = ', this.titleSex);
         this.route.params.subscribe(params => {
             // เฉพาะเมื่อมีค่า hn ส่งมาทาง url จึงทำส่วนนี้                    
             this.searchService.getPatient(params['hn']).subscribe(
@@ -92,7 +93,7 @@ export class EditPatientComp extends RegisterComp {
 
 
     confirmEdit(regisForm: Patient) {
-        this.confirmationService.confirm({
+        this.confirmService.confirm({
             message: 'ยืนยัน แก้ไขข้อมูลผู้ป่วย ?',
             accept: () => {
                 this.regService.updatePatient(regisForm).subscribe(() => {

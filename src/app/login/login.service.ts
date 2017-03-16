@@ -6,10 +6,6 @@ import { APP_CONFIG } from '../app.config';
 import { IAppConfig } from '../app.config.interface';
 import { Message } from 'primeng/primeng';
 
-/*export interface LogStatus {
-    value: Boolean;
-}*/
-
 @Injectable()
 export class LoginService {
 
@@ -44,6 +40,5 @@ export class LoginService {
         localStorage.clear();
         this.loginStatus.next('');
     }
-
 
 }

@@ -26,7 +26,7 @@ export class LoginComponent {
             "ttl": 43200  //6hours
         }
         this.loginService.login(body);
-        this.alertMsg = this.loginService.msg;
+        //this.alertMsg = this.loginService.msg;
     }
 
     logout() {
