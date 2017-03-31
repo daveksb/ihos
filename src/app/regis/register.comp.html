@@ -243,7 +243,7 @@
                     <button (click)="confirmAdd(regisForm.value)" [disabled]="!regisForm.valid" class="btn btn-success">สร้าง</button>
                 </div>
 
-                <div *ngIf="curPath == 'edit-patient/:hn' ">
+                <div *ngIf="curPath == 'edit/:hn' ">
                     <button (click)="confirmEdit(regisForm.value)" [disabled]="!regisForm.valid" class="btn btn-success">บันทึก</button>
                 </div>
 

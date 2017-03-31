@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ConfirmationService, Message } from 'primeng/primeng';
 
 import { SearchPatientService } from '../share/service/search.service';
-import { RegisterService } from '../share/service/register.service';
+import { RegisterService } from './register.service';
 import { Patient } from '../share/model/patient';
 
 import { RegisterComp } from './register.comp';
@@ -31,7 +31,7 @@ export class EditPatientComp extends RegisterComp {
 
     ngAfterViewInit() { // ไมใช้ ngOnInit เพราะจะไปทำให้ ngOnInit ของ Base ไม่ทำงาน จึงเลี่ยงมาใช้ ngAfterViewInit แทน
 
-        console.log('titleSex = ', this.titleSex);
+        //console.log('titleSex = ', this.titleSex);
         this.route.params.subscribe(params => {
             // เฉพาะเมื่อมีค่า hn ส่งมาทาง url จึงทำส่วนนี้                    
             this.searchService.getPatient(params['hn']).subscribe(
@@ -95,13 +95,13 @@ export class EditPatientComp extends RegisterComp {
     confirmEdit(regisForm: Patient) {
         this.confirmService.confirm({
             message: 'ยืนยัน แก้ไขข้อมูลผู้ป่วย ?',
-            accept: () => {
-                this.regService.updatePatient(regisForm).subscribe(() => {
-                    this.alertMsg.push({ severity: 'warn', summary: 'บันทึกข้อมูลเรียบร้อย', detail: 'หมายเลข HN: ' + regisForm.hn });
-                    setTimeout(() => { this.router.navigate(['newvisit', { hn: this.curHn }]); }, 2000);  // redirect ไปยังหน้า ลงทะเบียน
-                });
-
-            }
+            /*            accept: () => {
+                            this.regService.updatePatient(regisForm).subscribe(() => {
+                                this.alertMsg.push({ severity: 'warn', summary: 'บันทึกข้อมูลเรียบร้อย', detail: 'หมายเลข HN: ' + regisForm.hn });
+                                setTimeout(() => { this.router.navigate(['newvisit', { hn: this.curHn }]); }, 2000);  // redirect ไปยังหน้า ลงทะเบียน
+                            });
+            
+                        }*/
         });
     }
 

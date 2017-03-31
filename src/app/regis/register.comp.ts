@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { RegisterService } from '../share/service/register.service';
+import { RegisterService } from './register.service';
 import { Patient } from '../share/model/patient';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -88,13 +88,13 @@ export class RegisterComp implements OnInit {
     confirmAdd(regisForm: Patient) {
         this.confirmService.confirm({
             message: 'บันทึกข้อมูลผู้ป่วยใหม่ ?',
-            accept: () => { //console.log('regisForm= ', regisForm);
-                this.regService.createPatient(regisForm).subscribe(() => {
-                    //alert('บันทึกข้อมูลเรียบร้อย หมายเลข HN: ' + regisForm.hn);
-                    this.alertMsg.push({ severity: 'warn', summary: 'บันทึกข้อมูลเรียบร้อย', detail: 'หมายเลข HN: ' + regisForm.hn });
-                    setTimeout(() => { this.router.navigate(['newvisit', { hn: regisForm.hn }]); }, 3000);  // redirect ไปยังหน้า ลงทะเบียน
-                });
-            }
+            /*  accept: () => { //console.log('regisForm= ', regisForm);
+                  this.regService.createPatient(regisForm).subscribe(() => {
+                      //alert('บันทึกข้อมูลเรียบร้อย หมายเลข HN: ' + regisForm.hn);
+                      this.alertMsg.push({ severity: 'warn', summary: 'บันทึกข้อมูลเรียบร้อย', detail: 'หมายเลข HN: ' + regisForm.hn });
+                      setTimeout(() => { this.router.navigate(['newvisit', { hn: regisForm.hn }]); }, 3000);  // redirect ไปยังหน้า ลงทะเบียน
+                  });
+              }*/
         });
     }
 

@@ -17,10 +17,10 @@ export class ReportLabComponent implements OnInit {
 
     patientChanged(patient: any) {
 
-        console.log('call pt change patient = ', patient);
+        //console.log('call pt change patient = ', patient);
 
         this.repService.getReportLab(patient.hn).subscribe(res => this.labRecord = res);
 
-        console.log('lab Record = ', this.labRecord);
+        //console.log('lab Record = ', this.labRecord);
     }
 }

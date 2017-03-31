@@ -7,9 +7,9 @@ import { PeriodPipe } from './period.pipe'
 
 @Component({
   selector: 'patient-list',
-  templateUrl: './patient-list.component.html'
+  templateUrl: './list.comp.html'
 })
-export class PatientListComponent implements OnInit {
+export class PatientListComp implements OnInit {
 
   diagRegs: any;
 

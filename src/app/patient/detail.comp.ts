@@ -1,20 +1,18 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { PatientService } from './patient.service';
 
 @Component({
   selector: 'patient-detail',
-  templateUrl: './patient-detail.component.html',
+  templateUrl: './detail.comp.html',
   styleUrls: ['./patient.component.css'],
 })
-export class PatientDetailComponent implements OnInit {
+export class PatientDetailComp {
 
   @Input() regno: string;
 
   diagReg: any;
 
-  constructor(private _service: PatientService) { }
-
-  ngOnInit() {
+  constructor(private _service: PatientService) {
 
     this._service.getDiagreg(this.regno).subscribe(val => this.diagReg = val);
 

@@ -8,7 +8,6 @@ import { Subject } from 'rxjs/Subject';
 @Component({
     selector: 'search-patient',
     templateUrl: 'search.comp.html',
-    providers: [SearchPatientService]
 })
 
 export class SearchPatientComp {

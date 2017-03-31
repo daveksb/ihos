@@ -11,3 +11,6 @@ npm install moment --save
 npm install @types/moment --save
 "scripts": [ "../node_modules/moment/min/moment.min.js" ]
 import * as moment from 'moment';
+
+npm i socket.io-client
+npm install @types/socket.io-client

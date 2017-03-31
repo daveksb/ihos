@@ -1,12 +1,12 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http, Headers, Response, RequestOptions } from '@angular/http';
-import { APP_CONFIG } from '../../app.config';
-import { IAppConfig } from '../../app.config.interface';
+import { APP_CONFIG } from '../app.config';
+import { IAppConfig } from '../app.config.interface';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
-import { Patient } from '../model/patient';
-import { DiagReg } from '../model/diagreg';
+import { Patient } from '../share/model/patient';
+import { DiagReg } from '../share/model/diagreg';
 
 @Injectable()
 

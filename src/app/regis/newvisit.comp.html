@@ -165,7 +165,7 @@
 
             <div class="p-2">
                 <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="400"></p-confirmDialog>
-                <button type="submit" (click)="confirm(visitForm.value)" [disabled]="!visitForm.valid || currentRoom.length < 2" class="btn btn-success">ตกลง</button>
+                <button type="submit" (click)="confirmSw(visitForm.value)" [disabled]="!visitForm.valid || currentRoom.length < 2" class="btn btn-success">ตกลง</button>
             </div>
 
         </div>

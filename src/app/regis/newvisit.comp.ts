@@ -3,21 +3,22 @@ import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { APP_CONFIG } from '../app.config';
 import { IAppConfig } from '../app.config.interface';
-import { RegisterService } from '../share/service/register.service';
+
+import { RegisterService } from './register.service';
+
 import { SearchPatientService } from '../share/service/search.service';
+import { SearchPatientComp } from '../share/component/search.comp';
+
 import { Patient } from '../share/model/patient';
 import { DiagReg } from '../share/model/diagreg';
 
-import { SearchPatientComp } from '../share/component/search.comp';
 import { ConfirmationService, Message } from 'primeng/primeng';
 import { Observable } from 'rxjs/Rx';
 import { Subject } from 'rxjs/Subject';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 
-
 @Component({
-    selector: 'newvisit',
     templateUrl: 'newvisit.comp.html',
     styleUrls: ['./regis.css'],
 })
@@ -52,9 +53,9 @@ export class NewVisitComp implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private regisService: RegisterService,
-        private searchService: SearchPatientService,
+        //private searchService: SearchPatientService,
         private _fb: FormBuilder,
-        private confirmationService: ConfirmationService) {
+        private confirmService: ConfirmationService) {
 
         this.curPath = route.snapshot.params;
 
@@ -65,7 +66,7 @@ export class NewVisitComp implements OnInit {
             .debounceTime(500).distinctUntilChanged().switchMap((term: string) => this.regisService.getHos(term));
 
         const res = route.snapshot.routeConfig.path
-        console.log('res = ', res);
+        //console.log('res = ', res);
 
     }
 
@@ -91,7 +92,7 @@ export class NewVisitComp implements OnInit {
     }
 
     editPatient() {
-        this.router.navigate(['/edit-patient', this.tempPatient.hn]);
+        this.router.navigate(['/med-record/edit', this.tempPatient.hn]);
     }
 
     searchHos1(term: string) {
@@ -117,10 +118,10 @@ export class NewVisitComp implements OnInit {
         } else { this.officeHour = false; return 2 }
     }
 
-    confirm(formValue) {
-        this.confirmationService.confirm({
+    confirmSw() {
+        this.confirmService.confirm({
             message: 'บันทึกข้อมูลส่งตรวจ ?',
-            accept: () => { this.createVisit(formValue) }
+            //accept: () => { this.createVisit(formValue) }
         });
     }
 
