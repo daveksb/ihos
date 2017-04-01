@@ -10,7 +10,6 @@ export class AuthGuard implements CanActivate {
 
     canActivate() {
         //console.log('Auth-Guard Called : checking to see if logged in');
-
         if (localStorage.getItem('token')) { return true; }
 
         return false;

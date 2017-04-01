@@ -1,29 +1,32 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+
 import { APP_CONFIG } from '../app.config';
 import { IAppConfig } from '../app.config.interface';
 
-import { RegisterService } from './register.service';
-
-import { SearchPatientService } from '../share/service/search.service';
-import { SearchPatientComp } from '../share/component/search.comp';
+import { ConfirmationService, Message } from 'primeng/primeng';
+import { SearchPatientComp } from '../share/search.comp';
+import { CardRoomService } from './card-room.service';
 
 import { Patient } from '../share/model/patient';
 import { DiagReg } from '../share/model/diagreg';
 
-import { ConfirmationService, Message } from 'primeng/primeng';
 import { Observable } from 'rxjs/Rx';
 import { Subject } from 'rxjs/Subject';
-import * as _ from 'lodash';
 import * as moment from 'moment';
 
+export interface Social {
+    code: string;
+    type: string;
+}
+
 @Component({
-    templateUrl: 'newvisit.comp.html',
-    styleUrls: ['./regis.css'],
+    templateUrl: 'visit.comp.html',
+    styleUrls: ['./card-room.css'],
 })
 
-export class NewVisitComp implements OnInit {
+export class VisitComp implements OnInit {
 
     curPath: any;
     newRegNo: any;
@@ -38,7 +41,7 @@ export class NewVisitComp implements OnInit {
     occupaList = [];
     currentRoom: string = 'stdiag';
     clock: any;
-    officeHour: boolean;
+    officeHour: number;
     buttonNum = [{ min: -1, max: 3 }, { min: 2, max: 6 }, { min: 5, max: 9 }, { min: 8, max: 12 }, { min: 11, max: 15 }];
 
     msgs: Message[] = [];
@@ -52,22 +55,17 @@ export class NewVisitComp implements OnInit {
         @Inject(APP_CONFIG) private config: IAppConfig,
         private route: ActivatedRoute,
         private router: Router,
-        private regisService: RegisterService,
-        //private searchService: SearchPatientService,
+        private regisService: CardRoomService,
         private _fb: FormBuilder,
-        private confirmService: ConfirmationService) {
-
+        private confirmService: ConfirmationService
+    ) {
         this.curPath = route.snapshot.params;
-
+        //const res = route.snapshot.routeConfig.path
         this.obs1 = this.searchTermStream1.filter(x => x.length > 3).do(x => console.log('obs1:', x))
             .debounceTime(500).distinctUntilChanged().switchMap((term: string) => this.regisService.getHos(term));
 
         this.obs2 = this.searchTermStream2.filter(x => x.length > 3).do(x => console.log('obs2:', x))
             .debounceTime(500).distinctUntilChanged().switchMap((term: string) => this.regisService.getHos(term));
-
-        const res = route.snapshot.routeConfig.path
-        //console.log('res = ', res);
-
     }
 
     ngOnInit() {
@@ -77,11 +75,11 @@ export class NewVisitComp implements OnInit {
         //เฉพาะ กรณี ระบุ hn มาใน url
         if (this.curPath.hn) {
             //console.log('cur path =', this.curPath.hn);
-            this.searchService.getPatient(this.curPath.hn)
+            this.regisService.getPatient(this.curPath.hn)
                 .subscribe(res => { this.patientChanged(res) })
         }
 
-        this.isOfficeHour();
+        this.officeHour = this.regisService.isOfficeHour();
         this.obs1.subscribe(val => this.hos1List = val);  // ดักรอค่า hos1List
         this.obs2.subscribe(val => this.hos2List = val);
         this.clock = Observable.interval(1000).map(() => new Date());
@@ -89,40 +87,6 @@ export class NewVisitComp implements OnInit {
         this.regisService.getTable('socials').subscribe(res => this.classList = res);  //สิทธิ์
         this.regisService.getTable('nations').subscribe(res => this.nationList = res);  //สัญชาติ - เชื้อชาติ
         this.regisService.getTable('occupats').subscribe(res => this.occupaList = res);  //สัญชาติ - เชื้อชาติ
-    }
-
-    editPatient() {
-        this.router.navigate(['/med-record/edit', this.tempPatient.hn]);
-    }
-
-    searchHos1(term: string) {
-        this.searchTermStream1.next(term)
-        this.visitForm.patchValue({ hos1: term }); //กำหนดค่าให้ drop down hos1
-        /*
-                if (term.length > 3) {
-                    this.searchTermStream1.next(term);
-                }
-        */
-    } // function ที่รับ string แล้วสร้าง observable ใหม่ขึ้นมา
-
-    searchHos2(term: string) {
-        this.searchTermStream2.next(term);
-        this.visitForm.patchValue({ hos2: term }); //กำหนดค่าให้ drop down hos1
-    }
-
-    isOfficeHour() {
-        let d = new Date();
-        let n = d.getHours();
-        if (n > 7 && n < 17) { //เวลาทำงาน 7.00-17.00 น.
-            this.officeHour = true; return 1
-        } else { this.officeHour = false; return 2 }
-    }
-
-    confirmSw() {
-        this.confirmService.confirm({
-            message: 'บันทึกข้อมูลส่งตรวจ ?',
-            //accept: () => { this.createVisit(formValue) }
-        });
     }
 
     initForm() {
@@ -139,61 +103,6 @@ export class NewVisitComp implements OnInit {
         });
     }
 
-    resetStRoom() {
-        this.visitForm.patchValue({
-            stdiag: 1, stlr: 1, stdent: 1, sthp: 1, ster: 1,
-            stor: 1, stspclinic: 1, stlab: 1, stcmdoc: 1, stxray: 1,
-            stherbal: 1, stherbal1: 1, stherbal2: 1, stccc: 1, stsanita: 1,
-        })
-    }
-
-    getAge(bd) {
-        let today = new Date();
-        let birthDate = new Date(bd);
-        let age = today.getFullYear() - birthDate.getFullYear();
-        let m = today.getMonth() - birthDate.getMonth();
-        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) { age--; }
-        //console.log('age = ', age);
-        return age;
-    }
-
-    classChanged(input) {
-        let val = _.filter(this.classList, { 'code': input })
-        this.visitForm.patchValue({ stclass: val[0].type });
-    }
-
-    printOpd() {
-
-        this.tempPatient.nationTH = this.index2string(this.tempPatient.nation, 'nation');
-        this.tempPatient.raceTH = this.index2string(this.tempPatient.race, 'nation');
-        this.tempPatient.occupaTH = this.index2string(this.tempPatient.occupa, 'occupa');
-        this.tempPatient.classTH = this.index2string(this.tempPatient.class, 'class');
-        this.tempPatient.todayTH = this.regisService.en2thdate(new Date());
-
-        this.regisService.opdCard(this.tempPatient).subscribe(res => { });
-        setTimeout(() => { window.open(this.config.serverIP + 'opdcard.docx', '_blank'); }, 350);
-    }
-
-    printPrescription() {
-
-        this.tempPatient.classTH = this.index2string(this.tempPatient.class, 'class');
-        this.tempPatient.todayTH = this.regisService.en2thdate(new Date());
-        this.regisService.prescription(this.tempPatient).subscribe(res => { });
-
-        setTimeout(() => { window.open(this.config.serverIP + 'prescription.docx', '_blank'); }, 350);
-    }
-
-    index2string(value, type) {
-        let temp = [{ name: '' }];
-        if (type == 'nation') { temp = _.filter(this.nationList, { 'code': value }) }
-        if (type == 'occupa') { temp = _.filter(this.occupaList, { 'code': value }) }
-        if (type == 'class') { temp = _.filter(this.classList, { 'code': value }) }
-
-        let result = temp[0].name;
-        //console.log(type, ':', temp);
-        return result;
-    }
-
     patientChanged(patient: Patient) {
 
         this.tempPatient = patient;
@@ -206,14 +115,14 @@ export class NewVisitComp implements OnInit {
         this.tempPatient.insEdateTH = this.regisService.en2thdate(patient.insureEdate);
         this.tempPatient.lastdateTH = this.regisService.en2thdate(patient.lastdate);
         this.tempPatient.birthdayTH = this.regisService.en2thdate(patient.birthday);
-        this.tempPatient.age = this.getAge(patient.birthday);
+        this.tempPatient.age = this.regisService.getAge(patient.birthday);
 
         this.visitForm.patchValue({
             regno: this.newRegNo,
             qno: this.newQ,
             hn: patient.hn,
             count: patient.count + 1,
-            typedate: this.isOfficeHour(),
+            typedate: this.officeHour,
             titles: patient.titles,
             name: patient.name,
             surname: patient.surname,
@@ -223,19 +132,15 @@ export class NewVisitComp implements OnInit {
             insureCard: patient.insureCard,
             hos1: patient.hos1,
             hos2: patient.hos2,
-            time: moment().format("HH:mm:ss"),//new Date().toTimeString().slice(0, 8), //เอาแค่ 8 ตัวแรก ถ้าเกินจะเกิด error
+            time: moment().format("HH:mm:ss"),
         });
-        //console.log('Patient = ', patient);
         //console.log('current room = ', this.currentRoom);
         //console.log('regno = ', this.visitForm.controls['regno'].valid);
     }
 
     createRegNo() {
         //console.log('call : create regno ');
-        //let temp = new Date().toLocaleDateString([], { month: "2-digit", day: "2-digit" });
-
         let temp = moment().format("MM-DD");
-        //console.log('temp =', temp);
 
         this.regisService.getLastQue().subscribe(
             data => {
@@ -245,7 +150,6 @@ export class NewVisitComp implements OnInit {
                     //console.log('NULL new reg no = ', this.newRegNo);
 
                 } else {  // กรณีวันนั้น มี que ก่อนหน้า
-
                     let newQ = data.qno + 1;
                     let result = '60-' + temp + '-' + this.regisService.leftPad(newQ, 4);
                     //console.log('Not NULL new reg no = ', result);
@@ -272,10 +176,63 @@ export class NewVisitComp implements OnInit {
                 this.createRegNo();
                 this.resetPatient()
                 this.msgs.push({ severity: 'info', summary: 'บันทึกข้อมูลเรียบร้อย', detail: 'หมายเลข Visit: ' + diagReg.regno });
-                setTimeout(() => { this.router.navigate(['patient-list']); }, 2000);
+                setTimeout(() => { this.router.navigate(['patient/list']); }, 2000);
             },
             error => { alert(error) },
         );
+    }
+
+    searchHos1(term: string) {
+        this.searchTermStream1.next(term)
+        this.visitForm.patchValue({ hos1: term }); //กำหนดค่าให้ drop down hos1
+    } // function ที่รับ string แล้วสร้าง observable ใหม่ขึ้นมา
+
+    searchHos2(term: string) {
+        this.searchTermStream2.next(term);
+        this.visitForm.patchValue({ hos2: term }); //กำหนดค่าให้ drop down hos1
+    }
+
+    confirmSw(formValue) {
+        this.confirmService.confirm({
+            message: 'บันทึกข้อมูลส่งตรวจ ?',
+            accept: () => { this.createVisit(formValue) }
+        });
+    }
+
+    editPatient() {
+        this.router.navigate(['/card-room/edit', this.tempPatient.hn]);
+    }
+
+    resetStRoom() {
+        this.visitForm.patchValue({
+            stdiag: 1, stlr: 1, stdent: 1, sthp: 1, ster: 1,
+            stor: 1, stspclinic: 1, stlab: 1, stcmdoc: 1, stxray: 1,
+            stherbal: 1, stherbal1: 1, stherbal2: 1, stccc: 1, stsanita: 1,
+        })
+    }
+
+    classChanged(input) {
+        let val: any;
+        this.classList.filter((res: Social) => res.code == input).map((res: Social) => val = res.type)
+        this.visitForm.patchValue({ stclass: val });
+        //console.log('val = ', val);
+    }
+
+    printOpd() {
+        this.tempPatient.nationTH = this.regisService.index2string(this.tempPatient.nation, this.nationList);
+        this.tempPatient.raceTH = this.regisService.index2string(this.tempPatient.race, this.nationList);
+        this.tempPatient.occupaTH = this.regisService.index2string(this.tempPatient.occupa, this.occupaList);
+        this.tempPatient.classTH = this.regisService.index2string(this.tempPatient.class, this.classList);
+        this.tempPatient.todayTH = this.regisService.en2thdate(new Date());
+        this.regisService.opdCard(this.tempPatient).subscribe(res => { });
+        setTimeout(() => { window.open(this.config.serverIP + 'opdcard.docx', '_blank'); }, 350);
+    }
+
+    printPrescription() {
+        this.tempPatient.classTH = this.regisService.index2string(this.tempPatient.class, this.classList);
+        this.tempPatient.todayTH = this.regisService.en2thdate(new Date());
+        this.regisService.prescription(this.tempPatient).subscribe(res => { });
+        setTimeout(() => { window.open(this.config.serverIP + 'prescription.docx', '_blank'); }, 350);
     }
 
     selectRoom(room: any) {

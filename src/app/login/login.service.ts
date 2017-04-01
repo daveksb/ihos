@@ -13,12 +13,10 @@ export class LoginService {
 
     msg: Message[] = [];
 
-    //isLogin: LogStatus = { value: false }; // เราใช้ Object เพราะต้องการให้มัน by reference , เป็น trick ที่ทำให้ไม่ต้องใช้ observable
-
     constructor(private router: Router, @Inject(APP_CONFIG) private config: IAppConfig, private _http: Http) {
 
         this.loginStatus.next(localStorage.getItem('token'));
-        //console.log('login service Called at :', new Date())
+        console.log('login service Called at :', new Date())
     }
 
     login(body: Object): any {
@@ -27,16 +25,14 @@ export class LoginService {
             .subscribe(res => {
                 localStorage.setItem('token', res.id);
                 localStorage.setItem('username', res.userId);
-                this.loginStatus.next('true');
-                this.router.navigate(['newvisit']);
+                this.loginStatus.next(res.id);
+                this.router.navigate(['card-room/visit']);
             },
             error => { this.msg.push({ severity: 'error', summary: 'username หรือ password', detail: ' ไม่ถูกต้อง !!' }); }
             );
     }
 
     logout(): void {
-        // clear token and remove user from local storage
-        //console.log('logout service')
         localStorage.clear();
         this.loginStatus.next('');
     }

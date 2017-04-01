@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { LoginService } from './login/login.service';
-import { ActivatedRoute, Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-root',
@@ -12,13 +10,10 @@ export class AppComponent {
 
   loginStatus: any;
 
-  constructor(private _http: LoginService, private route: ActivatedRoute) {
+  constructor(private loginService: LoginService) {
 
-    this.loginStatus = _http.loginStatus;
-
+    this.loginStatus = loginService.loginStatus;
     //const res = route.snapshot.routeConfig.path;
-    //console.log('res = ', res);
-
   }
 
 }

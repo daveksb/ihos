@@ -10,9 +10,34 @@ import { DiagReg } from '../share/model/diagreg';
 
 @Injectable()
 
-export class RegisterService {
+export class CardRoomService {
 
     constructor( @Inject(APP_CONFIG) private config: IAppConfig, private _http: Http) {
+    }
+
+    index2string(findValue, inputArray) {
+        var result: any;
+        inputArray.filter(res => res.code == findValue).map(res => result = res.name)
+        //console.log(`${findValue} = ${result}`);
+        return result;
+    }
+
+    getAge(bd) {
+        let today = new Date();
+        let birthDate = new Date(bd);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        let m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) { age--; }
+        //console.log('age = ', age);
+        return age;
+    }
+
+    isOfficeHour() {
+        let d = new Date();
+        let n = d.getHours();
+        if (n > 7 && n < 17) { //เวลาทำงาน 7.00-17.00 น.
+            return 1
+        } else { return 2 }
     }
 
     opdCard(patient: Object) {
@@ -59,6 +84,14 @@ export class RegisterService {
         { col: 'stccc', name: 'CCC' },
         { col: 'stsanita', name: 'กลุ่มงานเวชฯ' }
     ]
+
+    // กรณีดึงผู้ป่วยคนเดียว
+    getPatient(hn: string) {
+        let query = encodeURIComponent(hn);  // มีเครื่องหมายทับ ใน hn ต้องแปลงก่อน
+        //console.log('call get patient query = ', query);
+        return this._http.get(this.config.apiEndpoint + 'Patients/' + query + '?access_token=' + localStorage.getItem('token'))
+            .map((response) => { return response.json() });
+    }
 
     createPatient(patient: Patient) {
         //console.log('patient=', patient);

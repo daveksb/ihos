@@ -2,11 +2,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+
 import { IAppConfig } from './app.config.interface';
 import { APP_CONFIG, AppConfig } from './app.config';
-import { RoutingModule } from './routing.module';
+import { RoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
 import { TopMenuComponent } from './menu/top-menu.component';
 
@@ -16,37 +16,30 @@ import { DiagModule } from './diag/diag.module';
 import { OperaionModule } from './operation/operation.module';
 import { VitalsignModule } from './vitalsign/vitalsign.module';
 import { ReportModule } from './report/report.module';
-import { LoginService } from './login/login.service';
-import { LoginComponent } from './login/login.component';
-import { ConfirmDialogModule, ConfirmationService, GrowlModule, MessagesModule } from 'primeng/primeng';
+import { LoginModule } from './login/login.module';
 
 @NgModule({
     declarations: [
         AppComponent,
         TopMenuComponent,
-        LoginComponent,
     ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
-        FormsModule,
         HttpModule,
         RoutingModule,
 
         MyShareModule.forRoot(),
+        LoginModule.forRoot(),
+
         ReportModule,
         VisitModule,
         DiagModule,
         OperaionModule,
         VitalsignModule,
-        ConfirmDialogModule,
-        GrowlModule,
-        MessagesModule
     ],
     providers: [
         //AuthGuard,
-        LoginService, // use as global service for auth-guard check
-        ConfirmationService,
         { provide: APP_CONFIG, useValue: AppConfig },
         { provide: LocationStrategy, useClass: HashLocationStrategy }
     ],

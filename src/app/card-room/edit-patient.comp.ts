@@ -4,15 +4,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { ConfirmationService, Message } from 'primeng/primeng';
 
-import { SearchPatientService } from '../share/service/search.service';
-import { RegisterService } from './register.service';
+import { CardRoomService } from './card-room.service';
 import { Patient } from '../share/model/patient';
 
 import { RegisterComp } from './register.comp';
 
 @Component({
     templateUrl: 'register.comp.html',
-    styleUrls: ['./regis.css'],
+    styleUrls: ['./card-room.css'],
 })
 export class EditPatientComp extends RegisterComp {
 
@@ -21,10 +20,9 @@ export class EditPatientComp extends RegisterComp {
     constructor(
         router: Router,
         route: ActivatedRoute,
-        regService: RegisterService,
+        regService: CardRoomService,
         _fb: FormBuilder,
-        confirmService: ConfirmationService,
-        protected searchService: SearchPatientService) {
+        confirmService: ConfirmationService) {
 
         super(router, route, regService, _fb, confirmService)
     }
@@ -34,7 +32,7 @@ export class EditPatientComp extends RegisterComp {
         //console.log('titleSex = ', this.titleSex);
         this.route.params.subscribe(params => {
             // เฉพาะเมื่อมีค่า hn ส่งมาทาง url จึงทำส่วนนี้                    
-            this.searchService.getPatient(params['hn']).subscribe(
+            this.regService.getPatient(params['hn']).subscribe(
                 res => {
                     //console.log('get patient = ', res)
                     this.curHn = res.hn;

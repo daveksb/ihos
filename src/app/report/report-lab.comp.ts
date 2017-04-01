@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SearchPatientComp } from '../share/component/search.comp';
+import { SearchPatientComp } from '../share/search.comp';
 import { ReportService } from './report.service';
-
 
 @Component({
     selector: 'report-lab',

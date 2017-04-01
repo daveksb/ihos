@@ -13,10 +13,10 @@
             <button class="btn btn-secondary">  วันที่ {{clock | async | date:'dd/MM/yyyy เวลา HH:mm:ss' }}</button>
         </div>
         <div class="p-2">
-            <button [ngClass]="officeHour === true ? 'btn btn-secondary' : 'btn btn-outline-secondary'">ในเวลา</button>
+            <button [ngClass]="officeHour == 1 ? 'btn btn-secondary' : 'btn btn-outline-secondary'">ในเวลา</button>
         </div>
         <div class="p-2">
-            <button [ngClass]="officeHour === false ? 'btn btn-secondary' : 'btn btn-outline-secondary'">นอกเวลา</button>
+            <button [ngClass]="officeHour == 2 ? 'btn btn-secondary' : 'btn btn-outline-secondary'">นอกเวลา</button>
         </div>
     </div>
 
@@ -137,7 +137,7 @@
                 ห้องที่ส่งตรวจ
             </div>
             <div class="card-block bg-white">
-                <div class="row">
+                <div class="row mt-2">
                     <div *ngFor="let b of buttonNum; let j = index">
                         <div class="col-auto">
                             <div *ngFor="let room of rooms; let i = index">

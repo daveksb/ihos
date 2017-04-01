@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { LoginService } from './login.service';
-import { GrowlModule, Message } from 'primeng/primeng';
+import { Message } from 'primeng/primeng';
 
 @Component({
     selector: 'login',
@@ -26,7 +26,7 @@ export class LoginComponent {
             "ttl": 43200  //6hours
         }
         this.loginService.login(body);
-        //this.alertMsg = this.loginService.msg;
+        this.alertMsg = this.loginService.msg;
     }
 
     logout() {

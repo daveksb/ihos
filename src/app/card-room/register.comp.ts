@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { RegisterService } from './register.service';
+import { CardRoomService } from './card-room.service';
 import { Patient } from '../share/model/patient';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { ConfirmationService, Message } from 'primeng/primeng';
-import * as _ from 'lodash';
 
 @Component({
     templateUrl: 'register.comp.html',
-    styleUrls: ['./regis.css'],
+    styleUrls: ['./card-room.css'],
 })
 export class RegisterComp implements OnInit {
 
@@ -43,14 +42,12 @@ export class RegisterComp implements OnInit {
     constructor(
 
         protected router: Router, protected route: ActivatedRoute,
-        protected regService: RegisterService, protected _fb: FormBuilder,
+        protected regService: CardRoomService, protected _fb: FormBuilder,
         protected confirmService: ConfirmationService) {
 
-        //console.log('route.snapshot.path =', route.snapshot.routeConfig.path);
         this.curPath = route.snapshot.routeConfig.path;
         //console.log('current path = ', this.curPath);
 
-        //console.log('constructor of Base')
         this.items1 = this.searchTermStream1.debounceTime(300).distinctUntilChanged().switchMap((term: string) => this.regService.getHos(term));
         this.items2 = this.searchTermStream2.debounceTime(300).distinctUntilChanged().switchMap((term: string) => this.regService.getHos(term));
 
@@ -88,13 +85,12 @@ export class RegisterComp implements OnInit {
     confirmAdd(regisForm: Patient) {
         this.confirmService.confirm({
             message: 'บันทึกข้อมูลผู้ป่วยใหม่ ?',
-            /*  accept: () => { //console.log('regisForm= ', regisForm);
-                  this.regService.createPatient(regisForm).subscribe(() => {
-                      //alert('บันทึกข้อมูลเรียบร้อย หมายเลข HN: ' + regisForm.hn);
-                      this.alertMsg.push({ severity: 'warn', summary: 'บันทึกข้อมูลเรียบร้อย', detail: 'หมายเลข HN: ' + regisForm.hn });
-                      setTimeout(() => { this.router.navigate(['newvisit', { hn: regisForm.hn }]); }, 3000);  // redirect ไปยังหน้า ลงทะเบียน
-                  });
-              }*/
+            accept: () => { //console.log('regisForm= ', regisForm);
+                this.regService.createPatient(regisForm).subscribe(() => {
+                    this.alertMsg.push({ severity: 'warn', summary: 'บันทึกข้อมูลเรียบร้อย', detail: 'หมายเลข HN: ' + regisForm.hn });
+                    setTimeout(() => { this.router.navigate(['card-room/visit', { hn: regisForm.hn }]); }, 3000);  // redirect ไปยังหน้า ลงทะเบียน
+                });
+            }
         });
     }
 
@@ -159,23 +155,19 @@ export class RegisterComp implements OnInit {
     }
 
     provinceChanged(pvCode) {
-        let temp = _.filter(this.provinceList, { 'code': pvCode });
-        this.pvName = temp[0].name;
-        //console.log('pv change temp = ', temp);
+        this.provinceList.filter(res => res.code == pvCode).map(res => this.pvName = res.name)
         this.regService.getAmpurByProvince(pvCode).subscribe(data => this.ampurList = data);
         this.tambonList = [];
     }
 
     ampurChanged(apCode) {
-        let temp = _.filter(this.ampurList, { 'code': apCode });
-        this.apName = temp[0].name;
+        this.ampurList.filter(res => res.code == apCode).map(res => this.apName = res.name)
         //console.log('ap change temp = ', temp);
         this.regService.getTambonByAmpur(apCode).subscribe(data => this.tambonList = data);
     }
 
     tambonChanged(tbCode) {
-        let temp = _.filter(this.tambonList, { 'code': tbCode });
-        this.tbName = temp[0].name;
+        this.tambonList.filter(res => res.code == tbCode).map(res => this.tbName = res.name)
         //console.log('this tbName = ', this.tbName);
     }
 

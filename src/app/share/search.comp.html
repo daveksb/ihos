@@ -1,0 +1,17 @@
+<div class="d-flex justify-content">
+    <div class="p-2">
+        <input #sterm class="form-control" placeholder="ค้นหา ชื่อ / HN / เลขบัตร">
+    </div>
+    <div class="p-2">
+        <button (click)="searchPatients(sterm.value)" [disabled]="sterm.value.length < 2" type="submit" class="btn btn-secondary">Submit</button>
+    </div>
+</div>
+
+<p-dialog [(visible)]="showDialog" modal="true" dismissableMask="true" width="650">
+    <p-dataTable [value]="patients | async" [scrollable]="true" scrollHeight="300px" selectionMode="single" (onRowSelect)="onSelect($event)">
+        <p-column field="hn" header="HN"></p-column>
+        <p-column field="personId" header="CID"></p-column>
+        <p-column field="name" header="ชื่อ"></p-column>
+        <p-column field="surname" header="นามสกุล"></p-column>
+    </p-dataTable>
+</p-dialog>
