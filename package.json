@@ -12,7 +12,6 @@
   },
   "private": true,
   "dependencies": {
-<<<<<<< HEAD
     "@angular/animations": "^4.2.4",
     "@angular/common": "^4.2.4",
     "@angular/compiler": "^4.2.4",
@@ -23,22 +22,6 @@
     "@angular/platform-browser-dynamic": "^4.2.4",
     "@angular/router": "^4.2.4",
     "bootstrap": "^4.0.0-alpha.6",
-=======
-    "@angular/animations": "^4.0.0",
-    "@angular/common": "^4.0.0",
-    "@angular/compiler": "^4.0.0",
-    "@angular/core": "^4.0.0",
-    "@angular/forms": "^4.0.0",
-    "@angular/http": "^4.0.0",
-    "@angular/platform-browser": "^4.0.0",
-    "@angular/platform-browser-dynamic": "^4.0.0",
-    "@angular/router": "^4.0.0",
-    "@types/moment": "^2.13.0",
-    "bootstrap": "^4.0.0-beta",
-<<<<<<< HEAD
->>>>>>> 1dc2931894e9f039886d4c47cc61dc7041af82e7
-=======
->>>>>>> 1dc2931894e9f039886d4c47cc61dc7041af82e7
     "core-js": "^2.4.1",
     "moment": "^2.18.1",
     "primeng": "^4.1.3",
