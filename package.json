@@ -22,7 +22,7 @@
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
     "@types/moment": "^2.13.0",
-    "bootstrap": "^4.0.0-alpha.6",
+    "bootstrap": "^4.0.0-beta",
     "core-js": "^2.4.1",
     "moment": "^2.18.1",
     "primeng": "^4.0.0-rc.2",

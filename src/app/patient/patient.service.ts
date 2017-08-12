@@ -18,9 +18,20 @@ export class PatientService {
 
         return this._http
             .get(this.config.apiEndpoint + 'Diagregs?filter[where][and][0][date][gte]=' + today +
-            '&filter[where][and][1][stdiag]=2&filter[order]=date%20DESC&access_token=' + localStorage.getItem('token'))
+            '&filter[where][and][1][stspclinic]=2&filter[order]=date%20DESC&access_token=' + localStorage.getItem('token'))
             .map(response => { return response.json(); });
     }
+    /* 
+            getPatients(term: string): Observable<Object[]> {
+    
+            let today = new Date().toJSON().slice(0, 10);
+            //console.log('today =', today)
+    
+            return this._http
+                .get(this.config.apiEndpoint + 'Diagregs?filter[where][and][0][date][gte]=' + today +
+                '&filter[where][and][1][stdiag]=2&filter[order]=date%20DESC&access_token=' + localStorage.getItem('token'))
+                .map(response => { return response.json(); });
+        } */
 
     getDiagreg(term: string): Observable<any> {
         return this._http
