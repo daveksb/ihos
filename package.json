@@ -35,6 +35,9 @@
     "@angular/router": "^4.0.0",
     "@types/moment": "^2.13.0",
     "bootstrap": "^4.0.0-beta",
+<<<<<<< HEAD
+>>>>>>> 1dc2931894e9f039886d4c47cc61dc7041af82e7
+=======
 >>>>>>> 1dc2931894e9f039886d4c47cc61dc7041af82e7
     "core-js": "^2.4.1",
     "moment": "^2.18.1",
