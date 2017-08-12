@@ -15,6 +15,7 @@ export class VisitComponent implements OnInit {
     ngOnInit() {
         let param: any = this.route.snapshot.params;
         this.regno = param.regno;
+        //console.log('param =', param);
     }
 
 }

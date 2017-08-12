@@ -13,7 +13,12 @@ export class PatientListComp implements OnInit {
 
   diagRegs: any;
 
-  constructor( @Inject(APP_CONFIG) private config: IAppConfig, private zone: NgZone, private router: Router, private _service: PatientService) {
+  constructor(
+    @Inject(APP_CONFIG)
+    private config: IAppConfig,
+    private zone: NgZone,
+    private router: Router,
+    private _service: PatientService) {
 
     const EventSource: any = window['EventSource'];
     const fx = new EventSource(this.config.apiEndpoint + 'diagregs/change-stream?_format=event-stream&access_token=' + localStorage.getItem('token'));
@@ -34,6 +39,7 @@ export class PatientListComp implements OnInit {
   }
 
   goToVisit(patient: any): void {
+    console.log('patient = ', patient);
     let link = ['/visit', patient.regno];
     this.router.navigate(link);
   }
