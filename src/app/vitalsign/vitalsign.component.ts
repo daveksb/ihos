@@ -17,7 +17,7 @@ export class VitalsignComponent implements OnInit {
     constructor(private _service: VitalsignService) { }
 
     ngOnInit() {
-        console.log('regno 77 =', this.regno);
+        //console.log('regno 77 =', this.regno);
         this._service.getDiagNote(this.regno).subscribe(val => this.vitalsign = val);
     }
 

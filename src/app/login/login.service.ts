@@ -16,7 +16,6 @@ export class LoginService {
     constructor(private router: Router, @Inject(APP_CONFIG) private config: IAppConfig, private _http: Http) {
 
         this.loginStatus.next(localStorage.getItem('token'));
-        console.log('login service Called at :', new Date())
     }
 
     login(body: Object): any {

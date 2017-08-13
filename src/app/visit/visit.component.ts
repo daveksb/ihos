@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     templateUrl: './visit.component.html',
@@ -10,7 +10,10 @@ export class VisitComponent implements OnInit {
 
     regno: any;
 
-    constructor(private route: ActivatedRoute) { }
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router
+    ) { }
 
     ngOnInit() {
         let param: any = this.route.snapshot.params;
