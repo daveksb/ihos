@@ -1,6 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { DiagService } from './diag.service';
 import { DiagEditModal } from './diag-edit-modal.component';
+import { RediagComponent } from './rediag.component'
 
 @Component({
     selector: 'diag-edit',
@@ -11,10 +12,15 @@ import { DiagEditModal } from './diag-edit-modal.component';
 export class DiagEditComponent {
 
     icd101s: any;
-    icd10Sub: any; //Object = { code: '', name: '', text: '', type: 0 };
+    icd10Sub: Object = { code: 'r2', name: '', text: '', type: 0, clinic: { name: '', code: '' } };
+    userDiagHistory: any;
+
     @Output() submitForm = new EventEmitter();
 
-    constructor(private _service: DiagService) { }
+    constructor(private _service: DiagService) {
+
+
+    }
 
     findIcd10s(term: string) {
         this._service.getICD10(term).subscribe((result) => {
@@ -24,7 +30,6 @@ export class DiagEditComponent {
 
     itemSelect(item) {
         this.icd10Sub = item;
-        console.log('icd10sub =', this.icd10Sub);
     }
 
     diagEditSubmit(items) {
@@ -32,6 +37,7 @@ export class DiagEditComponent {
         this._service.pushDiags(items);
         this.submitForm.emit(true);
     }
+
     cancel() {
         this.submitForm.emit(true);
     }
