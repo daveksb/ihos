@@ -9,14 +9,15 @@ export class DiagListComponent implements OnInit {
 
     temp: any;
 
-    constructor(private _service: DiagService) { }
+    constructor(private diagService: DiagService) { }
 
     ngOnInit() {
-        this.temp = this._service.getDiags();
+        this.temp = this.diagService.getDiags();
+        console.log('diag list =', this.temp);
     }
 
     delRow(index) {
-        this._service.delDiag(index);
+        this.diagService.delDiag(index);
     }
 
 }

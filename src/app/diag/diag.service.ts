@@ -27,9 +27,10 @@ export class DiagService {
     getICD10(term: string): Observable<Object[]> {
         return this._http
             .get(this.config.apiEndpoint
-            + 'Icd101s?filter[where][or][0][name][like]=' + term
-            + '%25&filter[where][or][1][code][like]=' + term
-            + '%25&access_token=' + localStorage.getItem('token'))
+            + 'Icd101s?filter[where][or][0][name][like]=' + term + '%25'
+            + '&filter[where][or][1][code][like]=' + term + '%25'
+            + '&filter[include]=clinic'
+            + '&access_token=' + localStorage.getItem('token'))
             .map((response) => { return response.json(); });
     }
 

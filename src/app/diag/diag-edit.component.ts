@@ -11,7 +11,7 @@ import { DiagEditModal } from './diag-edit-modal.component';
 export class DiagEditComponent {
 
     icd101s: any;
-    icd10Sub: Object = { code: '', name: '', text: '', type: 0 };
+    icd10Sub: any; //Object = { code: '', name: '', text: '', type: 0 };
     @Output() submitForm = new EventEmitter();
 
     constructor(private _service: DiagService) { }
@@ -24,6 +24,7 @@ export class DiagEditComponent {
 
     itemSelect(item) {
         this.icd10Sub = item;
+        console.log('icd10sub =', this.icd10Sub);
     }
 
     diagEditSubmit(items) {
