@@ -2,4 +2,4 @@
 
 <diag-list *ngIf="listMode"></diag-list>
 
-<diag-edit *ngIf="editMode" (submitForm)="returnListMode($event)"></diag-edit>
+<diag-edit *ngIf="editMode" [hn]="hn" (submitForm)="returnListMode($event)"></diag-edit>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'diag-home',
@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 
 export class DiagHomeComponent {
 
+    @Input() hn: any;
     listMode: Boolean = false;
     editMode: Boolean = true;
 

@@ -34,4 +34,10 @@ export class DiagService {
             .map((response) => { return response.json(); });
     }
 
+    getPatientDiagHistory(hn: string): Observable<any> {
+        return this._http.get(this.config.apiEndpoint
+            + `Diagregs?filter[where][hn]=${hn}&filter[order]=date%20DESC&access_token=${localStorage.getItem('token')}`
+        ).map((response) => { return response.json(); });
+    }
+
 }

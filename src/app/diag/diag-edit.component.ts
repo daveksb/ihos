@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { DiagService } from './diag.service';
 import { DiagEditModal } from './diag-edit-modal.component';
 import { RediagComponent } from './rediag.component'
@@ -13,13 +13,23 @@ export class DiagEditComponent {
 
     icd101s: any;
     icd10Sub: Object = { code: 'r2', name: '', text: '', type: 0, clinic: { name: '', code: '' } };
-    userDiagHistory: any;
+    patientDiagHistory: any;
 
+    @Input() hn: any;
     @Output() submitForm = new EventEmitter();
 
     constructor(private _service: DiagService) {
+    }
 
-
+    ngOnChanges() {
+        console.log('input hn =', this.hn);
+        // get patient diag history
+        this._service.getPatientDiagHistory(this.hn).subscribe(
+            res => {
+                console.log('patient diag history =', res);
+                this.patientDiagHistory = res.slice(0, 3);
+            }
+        )
     }
 
     findIcd10s(term: string) {

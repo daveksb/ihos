@@ -9,6 +9,8 @@ import { PatientModule } from '../patient/patient.module';
 
 import { VisitComponent } from './visit.component';
 
+import { VisitService } from './visit.service';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -19,5 +21,6 @@ import { VisitComponent } from './visit.component';
         PatientModule
     ],
     declarations: [VisitComponent],
+    providers: [VisitService]
 })
 export class VisitModule { }
